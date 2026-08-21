@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="UniFusion: unified spatio-temporal depth alignment for sparse-view 4D reconstruction.">
+  <meta name="keywords" content="UniFusion, 4D reconstruction, sparse view, depth alignment, Gaussian splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="UniFusion: Sparse-View 4D Reconstruction">
+  <meta property="og:description" content="Unified spatio-temporal depth alignment for sparse-view 4D reconstruction.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://yongzhelyu.github.io/UniFusion/static/images/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UniFusion: Sparse-View 4D Reconstruction">
+  <meta name="twitter:description" content="Unified spatio-temporal depth alignment for sparse-view 4D reconstruction.">
+  <meta name="twitter:image" content="https://yongzhelyu.github.io/UniFusion/static/images/og.png">
+  <title>UniFusion: Sparse-View 4D Reconstruction</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+</head>
+<body>
+  <section class="hero publication-header">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title"><span class="unifusion">UniFusion</span>: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><a href="https://yongzhelyu.github.io/">Yongzhe Lyu</a><sup>*</sup>,</span>
+              <span class="author-block">Shaofei Wang<sup>*</sup>,</span>
+              <span class="author-block">Yixin Chen<sup>†</sup>,</span>
+              <span class="author-block">Siyuan Huang<sup>†</sup></span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><a href="https://www.bigai.ai/">State Key Laboratory of General Artificial Intelligence, BIGAI</a></span>
+            </div>
+            <div class="is-size-7 author-notes"><sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding authors</div>
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block"><a href="./static/paper/UniFusion-paper.pdf" class="external-link button is-normal is-rounded is-dark"><span class="button-mark">PDF</span><span>Paper</span></a></span>
+                <span class="link-block"><span class="button is-normal is-rounded is-dark is-static"><span class="button-mark">&lt;/&gt;</span><span>Code Soon</span></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img class="teaser-image" src="./static/images/teaser.jpg" alt="UniFusion aligns monocular depth across views and time and improves 4D reconstruction.">
+        <h2 class="subtitle has-text-centered teaser-copy"><span class="unifusion">UniFusion</span> jointly aligns monocular depths across sparse views and time, providing reliable initialization and supervision for 4D Gaussian splatting.</h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero is-light is-small qualitative-strip">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered is-variable is-4">
+          <div class="column"><div class="result-item"><img src="./static/images/result-egoexo.jpg" alt="Held-out-frame comparison on Ego-Exo4D."><p>Held-out time · Ego-Exo4D</p></div></div>
+          <div class="column"><div class="result-item"><img src="./static/images/result-novel.jpg" alt="Novel-view comparison on Ego-Exo4D."><p>Novel view · Ego-Exo4D</p></div></div>
+          <div class="column"><div class="result-item"><img src="./static/images/result-egohuman.jpg" alt="Novel-view comparison on EgoHuman."><p>Novel view · EgoHuman</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>We address sparse-view 4D reconstruction, where limited cross-view overlap and temporal variation make monocular depth predictions inconsistent across both views and time. Existing methods align these dimensions in separate stages and depend on foreground masks and tracking models.</p>
+            <p>UniFusion introduces a unified spatio-temporal depth alignment framework that represents all depth maps as spatio-temporal neural fields. It jointly resolves cross-view and cross-time inconsistencies without distinguishing foreground from background. A multi-view depth-order loss and a scale-and-shift-invariant loss further improve depth quality.</p>
+            <p>The aligned depths initialize and supervise Gaussian splatting models. Experiments on Ego-Exo4D and EgoHuman show consistent improvements in novel-view / time synthesis and geometry, including PSNR gains of 4–6 dB and absolute relative depth-error reductions of 14–40%.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section method-section" id="method">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Method</h2>
+          <div class="content has-text-justified method-intro"><p>All temporal frames from one view share the same spatial representation, while compact residual weights condition the alignment network on time-dependent variation. The aligned depths then provide geometric initialization and supervision for 4D Gaussian splatting.</p></div>
+          <img class="method-image" src="./static/images/method.jpg" alt="Overview of unified spatio-temporal depth alignment and 4D Gaussian splatting reconstruction.">
+          <div class="columns is-centered method-columns">
+            <div class="column"><h3 class="title is-5">Shared spatial chart</h3><p>Per-view encodings capture geometry shared across all frames.</p></div>
+            <div class="column"><h3 class="title is-5">Residual temporal weights</h3><p>Low-rank residuals efficiently model time-dependent depth variation.</p></div>
+            <div class="column"><h3 class="title is-5">Geometry-aware losses</h3><p>Multi-view ordering and scale-shift invariance refine aligned depth.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Results</h2>
+          <div class="content has-text-justified results-intro"><p>UniFusion improves two different Gaussian-splatting backends. On EgoHuman held-out cameras, MonoFusion + Ours reaches 20.41 dB PSNR (+6.26 dB), while deformable 2DGS + Ours reaches 22.76 dB (+3.88 dB).</p></div>
+          <div class="result-stack">
+            <figure><img src="./static/images/result-egoexo.jpg" alt="Healthcare and music qualitative comparisons."><figcaption>Held-out frames on Ego-Exo4D: aligned depth reduces ghosting and improves geometry.</figcaption></figure>
+            <figure><img src="./static/images/result-novel.jpg" alt="Cooking and bicycle repair novel-view comparisons."><figcaption>Extreme novel views on Ego-Exo4D, approximately 45° from a training camera.</figcaption></figure>
+            <figure><img src="./static/images/result-egohuman.jpg" alt="Fencing and Lego novel-view comparisons."><figcaption>Novel views on EgoHuman: aligned depths recover substantially more coherent reconstructions.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{lyu2026unifusion,
+  author = {Lyu, Yongzhe and Wang, Shaofei and Chen, Yixin and Huang, Siyuan},
+  title  = {UniFusion: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment},
+  year   = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content"><p>This website follows the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies project-page template</a>, licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p></div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
