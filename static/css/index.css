@@ -162,6 +162,9 @@ body {
 .unifusion { font-variant: small-caps; }
 .publication-authors { margin-top: .3rem; }
 .author-notes { margin-top: .45rem; color: #666; }
+.publication-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem; }
+.publication-links .link-block { display: inline-flex; align-items: center; margin: 5px 0; }
+.publication-links .button { height: 2.5em; margin: 0 !important; }
 .button-mark { margin-right: .45rem; font-size: .72rem; font-weight: 800; }
 .teaser-image, .method-image { display: block; width: 100%; border-radius: 8px; }
 .teaser-video { display: block; width: 100%; border-radius: 8px; background: #000; }
