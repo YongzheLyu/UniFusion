@@ -228,12 +228,45 @@ body {
 .backend-tab:focus-visible { outline: 3px solid rgba(32, 156, 238, .35); outline-offset: 2px; }
 .backend-tab.is-active { background: #363636; color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .15); }
 .backend-panel[hidden] { display: none; }
-.result-video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.result-carousel-shell { position: relative; padding: 0 3rem 2rem; }
+.result-carousel-track {
+  display: flex;
+  overflow-x: auto;
+  border-radius: 10px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+}
+.result-carousel-track::-webkit-scrollbar { display: none; }
 .result-video-card { overflow: hidden; border: 1px solid #d9d9d9; border-radius: 10px; background: #fff; }
-.result-video-card video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.result-carousel-track .result-video-card { flex: 0 0 100%; scroll-snap-align: start; }
+.result-video-card video { display: block; width: 100%; aspect-ratio: 1290 / 760; background: #000; }
 .result-video-copy { padding: .9rem 1rem 1rem; }
 .result-video-copy h3 { margin: 0 0 .2rem; font: 600 1rem/1.35 'Google Sans', 'Noto Sans', sans-serif; }
 .result-video-copy p { margin: 0; color: #666; font-size: .86rem; line-height: 1.5; }
+.carousel-arrow {
+  position: absolute;
+  top: calc(50% - 2rem);
+  z-index: 2;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 1px solid #d7d7d7;
+  border-radius: 50%;
+  background: #fff;
+  color: #333;
+  font: 400 2rem/1 'Noto Sans', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .12);
+}
+.carousel-arrow:hover { background: #363636; color: #fff; }
+.carousel-arrow:focus-visible { outline: 3px solid rgba(32, 156, 238, .35); outline-offset: 2px; }
+.carousel-prev { left: 0; }
+.carousel-next { right: 0; }
+.carousel-dots { display: flex; justify-content: center; gap: .5rem; margin-top: 1rem; }
+.carousel-dot { width: .55rem; height: .55rem; padding: 0; border: 0; border-radius: 50%; background: #c9c9c9; cursor: pointer; }
+.carousel-dot.is-active { width: 1.6rem; border-radius: 999px; background: #363636; }
 #BibTeX pre { overflow-x: auto; white-space: pre-wrap; }
 .footer { padding: 3rem 1.5rem; }
 
@@ -242,5 +275,6 @@ body {
   .publication-title { font-size: 2rem !important; line-height: 1.18; }
   .publication-authors { font-size: 1.05rem !important; }
   .section { padding-top: 2.75rem; padding-bottom: 2.75rem; }
-  .result-video-grid { grid-template-columns: 1fr; }
+  .result-carousel-shell { padding-right: 0; padding-left: 0; }
+  .carousel-arrow { display: none; }
 }
