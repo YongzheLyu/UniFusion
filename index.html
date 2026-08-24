@@ -63,9 +63,9 @@
   <section class="section" id="abstract">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
-        <div class="column is-four-fifths">
+        <div class="column is-full-width">
           <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
+          <div class="content has-text-justified abstract-copy">
             <p>We address sparse-view 4D reconstruction, where limited cross-view overlap and temporal variation make monocular depth predictions inconsistent across both views and time. Existing methods align these dimensions in separate stages and depend on foreground masks and tracking models.</p>
             <p>UniFusion introduces a unified spatio-temporal depth alignment framework that represents all depth maps as spatio-temporal neural fields. It jointly resolves cross-view and cross-time inconsistencies without distinguishing foreground from background. A multi-view depth-order loss and a scale-and-shift-invariant loss further improve depth quality.</p>
             <p>The aligned depths initialize and supervise Gaussian splatting models. Experiments on Ego-Exo4D and EgoHuman show consistent improvements in novel-view / time synthesis and geometry, including PSNR gains of 4–6 dB and absolute relative depth-error reductions of 14–40%.</p>
