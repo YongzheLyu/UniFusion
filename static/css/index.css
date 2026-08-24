@@ -268,8 +268,6 @@ body {
 .carousel-dot { width: .55rem; height: .55rem; padding: 0; border: 0; border-radius: 50%; background: #c9c9c9; cursor: pointer; }
 .carousel-dot.is-active { width: 1.6rem; border-radius: 999px; background: #363636; }
 #BibTeX pre { overflow-x: auto; white-space: pre-wrap; }
-.footer { padding: 3rem 1.5rem; }
-
 @media (max-width: 768px) {
   .publication-header .hero-body { padding: 2.75rem 1.25rem 1.5rem; }
   .publication-title { font-size: 2rem !important; line-height: 1.18; }
