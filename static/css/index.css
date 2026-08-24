@@ -267,6 +267,13 @@ body {
 .carousel-dots { display: flex; justify-content: center; gap: .5rem; margin-top: 1rem; }
 .carousel-dot { width: .55rem; height: .55rem; padding: 0; border: 0; border-radius: 50%; background: #c9c9c9; cursor: pointer; }
 .carousel-dot.is-active { width: 1.6rem; border-radius: 999px; background: #363636; }
+.result-subsection-title {
+  margin: 2rem 0 .7rem !important;
+  font-family: 'Google Sans', 'Noto Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+.result-subsection-title + .backend-tabs { margin-top: .9rem; }
 .static-comparison-block {
   margin-top: 3.75rem;
   padding-top: 3.5rem;

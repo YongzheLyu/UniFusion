@@ -96,8 +96,9 @@
       <div class="columns is-centered">
         <div class="column is-full-width">
           <h2 class="title is-3">Results</h2>
-          <div class="content has-text-justified results-intro"><p>UniFusion consistently improves two Gaussian-splatting backends across novel-time and novel-view synthesis. Select a backend to browse the corresponding video comparisons.</p></div>
+          <div class="content has-text-justified results-intro"><p>UniFusion consistently improves two Gaussian-splatting backends across novel-time and novel-view synthesis. Browse the video and image comparisons below.</p></div>
 
+          <h3 class="title is-4 result-subsection-title">Video Comparisons</h3>
           <nav class="backend-tabs" role="tablist" aria-label="Results by reconstruction backend">
             <button class="backend-tab is-active" id="tab-deformable" type="button" role="tab" aria-selected="true" aria-controls="panel-deformable" data-target="panel-deformable">Deformable 2DGS</button>
             <button class="backend-tab" id="tab-monofusion" type="button" role="tab" aria-selected="false" aria-controls="panel-monofusion" data-target="panel-monofusion" tabindex="-1">MonoFusion</button>
@@ -152,11 +153,11 @@
             <p class="static-comparison-intro">Drag the divider to compare each backend with its UniFusion-enhanced result. Use the arrows or swipe to browse scenes.</p>
 
             <nav class="backend-tabs static-backend-tabs" role="tablist" aria-label="Static comparisons by reconstruction backend">
-              <button class="static-backend-tab is-active" id="static-tab-monofusion" type="button" role="tab" aria-selected="true" aria-controls="static-panel-monofusion" data-static-target="static-panel-monofusion">MonoFusion</button>
-              <button class="static-backend-tab" id="static-tab-deformable" type="button" role="tab" aria-selected="false" aria-controls="static-panel-deformable" data-static-target="static-panel-deformable" tabindex="-1">Deformable 2DGS</button>
+              <button class="static-backend-tab" id="static-tab-monofusion" type="button" role="tab" aria-selected="false" aria-controls="static-panel-monofusion" data-static-target="static-panel-monofusion" tabindex="-1">MonoFusion</button>
+              <button class="static-backend-tab is-active" id="static-tab-deformable" type="button" role="tab" aria-selected="true" aria-controls="static-panel-deformable" data-static-target="static-panel-deformable">Deformable 2DGS</button>
             </nav>
 
-            <div class="static-backend-panel is-active" id="static-panel-monofusion" role="tabpanel" aria-labelledby="static-tab-monofusion">
+            <div class="static-backend-panel" id="static-panel-monofusion" role="tabpanel" aria-labelledby="static-tab-monofusion" hidden>
               <div class="comparison-carousel" data-static-carousel>
                 <button class="comparison-arrow comparison-prev" type="button" aria-label="Previous MonoFusion static comparison">&#8249;</button>
                 <div class="comparison-track" tabindex="0">
@@ -186,7 +187,7 @@
               </div>
             </div>
 
-            <div class="static-backend-panel" id="static-panel-deformable" role="tabpanel" aria-labelledby="static-tab-deformable" hidden>
+            <div class="static-backend-panel is-active" id="static-panel-deformable" role="tabpanel" aria-labelledby="static-tab-deformable">
               <div class="comparison-carousel" data-static-carousel>
                 <button class="comparison-arrow comparison-prev" type="button" aria-label="Previous Deformable 2DGS static comparison">&#8249;</button>
                 <div class="comparison-track" tabindex="0">
