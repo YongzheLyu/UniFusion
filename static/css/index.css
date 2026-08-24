@@ -204,10 +204,36 @@ body {
 .method-image { margin: 0 0 2rem; border: 1px solid #ddd; }
 .method-columns { margin-top: 1rem; text-align: center; }
 .method-columns p { color: #555; font-size: .9rem; }
-.result-stack { display: grid; gap: 2rem; width: 100%; margin: 2rem 0 0; }
-.result-stack figure { margin: 0; overflow: hidden; border: 1px solid #bbb; border-radius: 10px; background: #fff; }
-.result-stack img { display: block; width: 100%; }
-.result-stack figcaption { padding: .8rem 1rem; color: #555; font-size: .83rem; text-align: left; }
+.backend-tabs {
+  display: flex;
+  gap: .5rem;
+  margin: 2rem 0 1.5rem;
+  padding: .35rem;
+  border: 1px solid #dedede;
+  border-radius: 999px;
+  background: #f5f5f5;
+}
+.backend-tab {
+  flex: 1;
+  padding: .72rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #666;
+  font: 600 1rem/1.2 'Google Sans', 'Noto Sans', sans-serif;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.backend-tab:hover { color: #222; }
+.backend-tab:focus-visible { outline: 3px solid rgba(32, 156, 238, .35); outline-offset: 2px; }
+.backend-tab.is-active { background: #363636; color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, .15); }
+.backend-panel[hidden] { display: none; }
+.result-video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.result-video-card { overflow: hidden; border: 1px solid #d9d9d9; border-radius: 10px; background: #fff; }
+.result-video-card video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.result-video-copy { padding: .9rem 1rem 1rem; }
+.result-video-copy h3 { margin: 0 0 .2rem; font: 600 1rem/1.35 'Google Sans', 'Noto Sans', sans-serif; }
+.result-video-copy p { margin: 0; color: #666; font-size: .86rem; line-height: 1.5; }
 #BibTeX pre { overflow-x: auto; white-space: pre-wrap; }
 .footer { padding: 3rem 1.5rem; }
 
@@ -216,4 +242,5 @@ body {
   .publication-title { font-size: 2rem !important; line-height: 1.18; }
   .publication-authors { font-size: 1.05rem !important; }
   .section { padding-top: 2.75rem; padding-bottom: 2.75rem; }
+  .result-video-grid { grid-template-columns: 1fr; }
 }

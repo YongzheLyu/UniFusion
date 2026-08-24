@@ -16,7 +16,7 @@
   <title>UniFusion: Sparse-View 4D Reconstruction</title>
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/index.css?v=layout-20260824">
+  <link rel="stylesheet" href="./static/css/index.css?v=results-gallery-20260824">
   <link rel="icon" href="./static/images/favicon.svg">
 </head>
 <body>
@@ -96,11 +96,45 @@
       <div class="columns is-centered">
         <div class="column is-full-width">
           <h2 class="title is-3">Results</h2>
-          <div class="content has-text-justified results-intro"><p>UniFusion improves two different Gaussian-splatting backends. On EgoHuman held-out cameras, MonoFusion + Ours reaches 20.41 dB PSNR (+6.26 dB), while deformable 2DGS + Ours reaches 22.76 dB (+3.88 dB).</p></div>
-          <div class="result-stack">
-            <figure><img src="./static/images/result-egoexo.jpg" alt="Healthcare and music qualitative comparisons."><figcaption>Held-out frames on Ego-Exo4D: aligned depth reduces ghosting and improves geometry.</figcaption></figure>
-            <figure><img src="./static/images/result-novel.jpg" alt="Cooking and bicycle repair novel-view comparisons."><figcaption>Extreme novel views on Ego-Exo4D, approximately 45° from a training camera.</figcaption></figure>
-            <figure><img src="./static/images/result-egohuman.jpg" alt="Fencing and Lego novel-view comparisons."><figcaption>Novel views on EgoHuman: aligned depths recover substantially more coherent reconstructions.</figcaption></figure>
+          <div class="content has-text-justified results-intro"><p>UniFusion consistently improves two Gaussian-splatting backends across novel-time and novel-view synthesis. Select a backend to browse the corresponding video comparisons.</p></div>
+
+          <nav class="backend-tabs" role="tablist" aria-label="Results by reconstruction backend">
+            <button class="backend-tab is-active" id="tab-deformable" type="button" role="tab" aria-selected="true" aria-controls="panel-deformable" data-target="panel-deformable">Deformable 2DGS</button>
+            <button class="backend-tab" id="tab-monofusion" type="button" role="tab" aria-selected="false" aria-controls="panel-monofusion" data-target="panel-monofusion" tabindex="-1">MonoFusion</button>
+          </nav>
+
+          <div class="backend-panel is-active" id="panel-deformable" role="tabpanel" aria-labelledby="tab-deformable">
+            <div class="result-video-grid">
+              <article class="result-video-card">
+                <video autoplay muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-temporal.mp4" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel-time synthesis</h3><p>Temporally aligned depth suppresses flickering in the Fencing sequence.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video autoplay muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-novel-5deg.mp4" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel view · 5°</h3><p>Small-baseline novel-view synthesis on the Healthcare sequence.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video autoplay muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-novel-45deg.mp4" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel view · 45°</h3><p>Extreme novel-view synthesis on the Cooking sequence.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video autoplay muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-surround.mp4" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Surround view</h3><p>Consistent geometry enables a smooth orbit around the Fencing sequence.</p></div>
+              </article>
+            </div>
+          </div>
+
+          <div class="backend-panel" id="panel-monofusion" role="tabpanel" aria-labelledby="tab-monofusion" hidden>
+            <div class="result-video-grid">
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/monofusion-temporal.mp4" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel-time synthesis</h3><p>Unified alignment reduces temporal artifacts in the Music sequence.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/monofusion-surround.mp4" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Surround view</h3><p>Aligned geometry produces smoother camera transitions around the Music sequence.</p></div>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -127,5 +161,42 @@
       </div>
     </div>
   </footer>
+  <script>
+    (() => {
+      const tabs = Array.from(document.querySelectorAll('.backend-tab'));
+      const panels = Array.from(document.querySelectorAll('.backend-panel'));
+
+      function activateTab(tab) {
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-selected', String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+
+        panels.forEach((panel) => {
+          const active = panel.id === tab.dataset.target;
+          panel.classList.toggle('is-active', active);
+          panel.hidden = !active;
+          panel.querySelectorAll('video').forEach((video) => {
+            if (active) video.play().catch(() => {});
+            else video.pause();
+          });
+        });
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activateTab(tab));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const next = tabs[(index + direction + tabs.length) % tabs.length];
+          activateTab(next);
+          next.focus();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
