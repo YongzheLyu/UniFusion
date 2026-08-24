@@ -16,7 +16,7 @@
   <title>UniFusion: Sparse-View 4D Reconstruction</title>
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/index.css?v=results-carousel-20260824">
+  <link rel="stylesheet" href="./static/css/index.css?v=static-comparison-20260824">
   <link rel="icon" href="./static/images/favicon.svg">
 </head>
 <body>
@@ -146,6 +146,96 @@
               <div class="carousel-dots" aria-label="MonoFusion gallery navigation"></div>
             </div>
           </div>
+
+          <div class="static-comparison-block">
+            <h3 class="title is-4">Static Comparisons</h3>
+            <p class="static-comparison-intro">Drag the divider to compare each backend with its UniFusion-enhanced result. Use the arrows or swipe to browse scenes.</p>
+
+            <nav class="backend-tabs static-backend-tabs" role="tablist" aria-label="Static comparisons by reconstruction backend">
+              <button class="static-backend-tab is-active" id="static-tab-monofusion" type="button" role="tab" aria-selected="true" aria-controls="static-panel-monofusion" data-static-target="static-panel-monofusion">MonoFusion</button>
+              <button class="static-backend-tab" id="static-tab-deformable" type="button" role="tab" aria-selected="false" aria-controls="static-panel-deformable" data-static-target="static-panel-deformable" tabindex="-1">Deformable 2DGS</button>
+            </nav>
+
+            <div class="static-backend-panel is-active" id="static-panel-monofusion" role="tabpanel" aria-labelledby="static-tab-monofusion">
+              <div class="comparison-carousel" data-static-carousel>
+                <button class="comparison-arrow comparison-prev" type="button" aria-label="Previous MonoFusion static comparison">&#8249;</button>
+                <div class="comparison-track" tabindex="0">
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Held-out frame</h4><span>Healthcare · Ego-Exo4D</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/monofusion-heldout-before.webp" alt="Healthcare result produced by MonoFusion.">
+                      <div class="compare-after"><img src="./static/images/comparisons/monofusion-heldout-after.webp" alt="Healthcare result produced by MonoFusion with UniFusion."></div>
+                      <span class="compare-label compare-label-left">MonoFusion</span><span class="compare-label compare-label-right">+ UniFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare MonoFusion and MonoFusion with UniFusion on Healthcare">
+                    </div>
+                  </article>
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view · 45°</h4><span>Cooking · Ego-Exo4D</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/monofusion-novel-before.webp" alt="Cooking result produced by MonoFusion.">
+                      <div class="compare-after"><img src="./static/images/comparisons/monofusion-novel-after.webp" alt="Cooking result produced by MonoFusion with UniFusion."></div>
+                      <span class="compare-label compare-label-left">MonoFusion</span><span class="compare-label compare-label-right">+ UniFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare MonoFusion and MonoFusion with UniFusion on Cooking">
+                    </div>
+                  </article>
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view</h4><span>Fencing · EgoHumans</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/monofusion-egohuman-before.webp" alt="Fencing result produced by MonoFusion.">
+                      <div class="compare-after"><img src="./static/images/comparisons/monofusion-egohuman-after.webp" alt="Fencing result produced by MonoFusion with UniFusion."></div>
+                      <span class="compare-label compare-label-left">MonoFusion</span><span class="compare-label compare-label-right">+ UniFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare MonoFusion and MonoFusion with UniFusion on Fencing">
+                    </div>
+                  </article>
+                </div>
+                <button class="comparison-arrow comparison-next" type="button" aria-label="Next MonoFusion static comparison">&#8250;</button>
+                <div class="comparison-dots" aria-label="MonoFusion static comparison navigation"></div>
+              </div>
+            </div>
+
+            <div class="static-backend-panel" id="static-panel-deformable" role="tabpanel" aria-labelledby="static-tab-deformable" hidden>
+              <div class="comparison-carousel" data-static-carousel>
+                <button class="comparison-arrow comparison-prev" type="button" aria-label="Previous Deformable 2DGS static comparison">&#8249;</button>
+                <div class="comparison-track" tabindex="0">
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Held-out frame</h4><span>Healthcare · Ego-Exo4D</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/deformable-heldout-before.webp" alt="Healthcare result produced by Deformable 2DGS.">
+                      <div class="compare-after"><img src="./static/images/comparisons/deformable-heldout-after.webp" alt="Healthcare result produced by Deformable 2DGS with UniFusion."></div>
+                      <span class="compare-label compare-label-left">Deformable 2DGS</span><span class="compare-label compare-label-right">+ UniFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare Deformable 2DGS and Deformable 2DGS with UniFusion on Healthcare">
+                    </div>
+                  </article>
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view · 45°</h4><span>Cooking · Ego-Exo4D</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/deformable-novel-before.webp" alt="Cooking result produced by Deformable 2DGS.">
+                      <div class="compare-after"><img src="./static/images/comparisons/deformable-novel-after.webp" alt="Cooking result produced by Deformable 2DGS with UniFusion."></div>
+                      <span class="compare-label compare-label-left">Deformable 2DGS</span><span class="compare-label compare-label-right">+ UniFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare Deformable 2DGS and Deformable 2DGS with UniFusion on Cooking">
+                    </div>
+                  </article>
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view</h4><span>Fencing · EgoHumans</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/deformable-egohuman-before.webp" alt="Fencing result produced by Deformable 2DGS.">
+                      <div class="compare-after"><img src="./static/images/comparisons/deformable-egohuman-after.webp" alt="Fencing result produced by Deformable 2DGS with UniFusion."></div>
+                      <span class="compare-label compare-label-left">Deformable 2DGS</span><span class="compare-label compare-label-right">+ UniFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare Deformable 2DGS and Deformable 2DGS with UniFusion on Fencing">
+                    </div>
+                  </article>
+                </div>
+                <button class="comparison-arrow comparison-next" type="button" aria-label="Next Deformable 2DGS static comparison">&#8250;</button>
+                <div class="comparison-dots" aria-label="Deformable 2DGS static comparison navigation"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -259,8 +349,101 @@
         });
       });
 
-      window.addEventListener('resize', () => carouselControllers.forEach((controller) => controller.refresh()));
+      const staticTabs = Array.from(document.querySelectorAll('.static-backend-tab'));
+      const staticPanels = Array.from(document.querySelectorAll('.static-backend-panel'));
+      const staticCarouselControllers = [];
+
+      document.querySelectorAll('[data-compare]').forEach((frame) => {
+        const range = frame.querySelector('.compare-range');
+        range.addEventListener('input', () => frame.style.setProperty('--split', `${range.value}%`));
+      });
+
+      document.querySelectorAll('[data-static-carousel]').forEach((shell) => {
+        const track = shell.querySelector('.comparison-track');
+        const slides = Array.from(shell.querySelectorAll('.comparison-slide'));
+        const previous = shell.querySelector('.comparison-prev');
+        const next = shell.querySelector('.comparison-next');
+        const dotsHost = shell.querySelector('.comparison-dots');
+        let currentIndex = 0;
+        let scrollTimer;
+
+        const dots = slides.map((_, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'comparison-dot';
+          dot.setAttribute('aria-label', `Show static comparison ${index + 1}`);
+          dot.addEventListener('click', () => goTo(index));
+          dotsHost.appendChild(dot);
+          return dot;
+        });
+
+        function updateDots() {
+          dots.forEach((dot, index) => {
+            const active = index === currentIndex;
+            dot.classList.toggle('is-active', active);
+            dot.setAttribute('aria-current', active ? 'true' : 'false');
+          });
+        }
+
+        function goTo(index, smooth = true) {
+          currentIndex = (index + slides.length) % slides.length;
+          track.scrollTo({ left: currentIndex * track.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
+          updateDots();
+        }
+
+        previous.addEventListener('click', () => goTo(currentIndex - 1));
+        next.addEventListener('click', () => goTo(currentIndex + 1));
+        track.addEventListener('scroll', () => {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => {
+            currentIndex = Math.round(track.scrollLeft / track.clientWidth);
+            updateDots();
+          }, 80);
+        });
+        track.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          if (event.target.matches('.compare-range')) return;
+          event.preventDefault();
+          goTo(currentIndex + (event.key === 'ArrowRight' ? 1 : -1));
+        });
+
+        updateDots();
+        staticCarouselControllers.push({ refresh: () => goTo(currentIndex, false) });
+      });
+
+      function activateStaticTab(tab) {
+        staticTabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-selected', String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+        staticPanels.forEach((panel) => {
+          const active = panel.id === tab.dataset.staticTarget;
+          panel.classList.toggle('is-active', active);
+          panel.hidden = !active;
+        });
+        requestAnimationFrame(() => staticCarouselControllers.forEach((controller) => controller.refresh()));
+      }
+
+      staticTabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activateStaticTab(tab));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const next = staticTabs[(index + direction + staticTabs.length) % staticTabs.length];
+          activateStaticTab(next);
+          next.focus();
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        carouselControllers.forEach((controller) => controller.refresh());
+        staticCarouselControllers.forEach((controller) => controller.refresh());
+      });
       carouselControllers.forEach((controller) => controller.refresh());
+      staticCarouselControllers.forEach((controller) => controller.refresh());
     })();
   </script>
 </body>
