@@ -339,7 +339,7 @@ body {
   object-fit: fill;
   pointer-events: none;
 }
-.compare-after { clip-path: inset(0 0 0 var(--split)); }
+.compare-after { clip-path: inset(0 calc(100% - var(--split)) 0 0); }
 .compare-divider {
   position: absolute;
   top: 0;
