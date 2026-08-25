@@ -16,7 +16,7 @@
   <title>UniFusion: Sparse-View 4D Reconstruction</title>
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/index.css?v=static-comparison-20260824">
+  <link rel="stylesheet" href="./static/css/index.css?v=section-centering-20260825">
   <link rel="icon" href="./static/images/favicon.svg">
 </head>
 <body>
@@ -50,7 +50,7 @@
 
   <section class="section video-section" id="video">
     <div class="container is-max-desktop">
-      <h2 class="title is-3">Video</h2>
+      <h2 class="title is-3 centered-section-title">Video</h2>
       <video id="teaser" class="teaser-video" autoplay muted loop playsinline controls preload="metadata" poster="./static/images/teaser.jpg?v=demo-20260825">
         <source src="./static/videos/UniFusion.mp4?v=demo-20260825" type="video/mp4">
         Your browser does not support the video tag.
@@ -63,7 +63,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column is-full-width">
-          <h2 class="title is-3">Abstract</h2>
+          <h2 class="title is-3 centered-section-title">Abstract</h2>
           <div class="content has-text-justified abstract-copy">
             <p>We address sparse-view 4D reconstruction, where limited cross-view overlap and temporal variation make monocular depth predictions inconsistent across both views and time. Existing methods align these dimensions in separate stages and depend on foreground masks and tracking models.</p>
             <p>UniFusion introduces a unified spatio-temporal depth alignment framework that represents all depth maps as spatio-temporal neural fields. It jointly resolves cross-view and cross-time inconsistencies without distinguishing foreground from background. A multi-view depth-order loss and a scale-and-shift-invariant loss further improve depth quality.</p>

@@ -198,9 +198,11 @@ body {
   font-weight: 600;
   letter-spacing: -.018em;
 }
+.section .centered-section-title { text-align: center; }
 .section .content { font-size: 1.03rem; }
 .section .content p { line-height: 1.72; }
 .abstract-copy, .method-intro, .results-intro { width: 100%; margin: 0 0 1.75rem; }
+#abstract .abstract-copy { max-width: 820px; margin-right: auto; margin-left: auto; }
 .method-image { margin: 0 0 2rem; border: 1px solid #ddd; }
 .method-columns { margin-top: 1rem; text-align: center; }
 .method-columns p { color: #555; font-size: .9rem; }
