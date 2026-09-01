@@ -87,6 +87,10 @@ def main() -> None:
     alignment = [sys.executable, str(ROOT / "scripts" / "align_charts.py"), "--source_path", str(sfm_scene), "--mast3r_scene", str(sfm_scene), "--output_path", str(sfm_scene), "--config", args.alignment_config, "--depth_model", args.depth_model, "--depthanythingv2_checkpoint_dir", str(args.depthanythingv2_checkpoint_dir), "--depthanything_encoder", args.depthanything_encoder]
 
     refinement = [sys.executable, str(ROOT / "scripts" / "refine_free_gaussians.py"), "--mast3r_scene", str(sfm_scene), "--output_path", str(gaussian_output), "--config", args.free_gaussians_config, "--dense_regul", args.dense_regul]
+    refinement.extend([
+        "--depthanythingv2_checkpoint_dir", str(args.depthanythingv2_checkpoint_dir),
+        "--depthanything_encoder", args.depthanything_encoder,
+    ])
     append_option(refinement, "--dense_data_path", source if args.dense_supervision else None)
     append_option(refinement, "--preprocessed_dir", args.preprocessed_dir)
 

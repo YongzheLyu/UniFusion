@@ -59,8 +59,12 @@ sbatch --partition=<partition> --array=0-5 cluster/reproduce_exorecon.slurm
 ```
 
 Run `sbatch cluster/smoke_bike.slurm` first. The job creates a three-frame bike
-view under `work/smoke_data`, performs 3 alignment iterations and 20 2DGS
-iterations, and never writes into the source ExoRecon tree.
+view under `work/smoke_data`, performs 3 alignment iterations, the standard
+3,000-iteration coarse initialization, and 20 fine-stage iterations. It never
+writes into the source ExoRecon tree. Use `STAGES='render evaluate'` to rerun
+only the final smoke stages.
+Set `DEPTHANYTHING_CHECKPOINT_DIR` when the weights are stored outside the
+repository checkout.
 
 ## Reproducibility record
 

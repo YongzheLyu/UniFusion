@@ -12,9 +12,11 @@
 
 set -euo pipefail
 
-REPO_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+REPO_ROOT=${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}
 SOURCE_DATA_ROOT=${SOURCE_DATA_ROOT:-/share/NSS/lvyongzhe/ExoRecon}
 SMOKE_DATA_ROOT=${SMOKE_DATA_ROOT:-${REPO_ROOT}/work/smoke_data}
+DEPTHANYTHING_CHECKPOINT_DIR=${DEPTHANYTHING_CHECKPOINT_DIR:-${REPO_ROOT}/Depth-Anything-V2/checkpoints}
+read -r -a PIPELINE_STAGES <<< "${STAGES:-preprocess align organize finalize train}"
 
 source /share/NSS/lvyongzhe/anaconda3/etc/profile.d/conda.sh
 conda activate matcha
@@ -32,6 +34,7 @@ python scripts/create_smoke_dataset.py \
 python scripts/reproduce_exorecon.py \
   --config configs/smoke/bike.yaml \
   --data-root "${SMOKE_DATA_ROOT}" \
+  --depthanything-checkpoint-dir "${DEPTHANYTHING_CHECKPOINT_DIR}" \
   --sequences bike \
-  --stages preprocess align organize finalize train \
+  --stages "${PIPELINE_STAGES[@]}" \
   --resume

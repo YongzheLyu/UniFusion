@@ -139,8 +139,10 @@ prepared inputs read-only and writes everything below `work/smoke_data`:
 sbatch cluster/smoke_bike.slurm
 ```
 
-The smoke recipe uses 3 chart-alignment iterations and 20 2DGS iterations. It
-checks execution only and must never be reported as a paper result.
+The smoke recipe uses 3 chart-alignment iterations, the standard 3,000-iteration
+coarse initialization, and 20 fine-stage iterations. It checks execution only
+and must never be reported as a paper result. Individual stages can be rerun,
+for example `STAGES='render evaluate' sbatch cluster/smoke_bike.slurm`.
 
 ## Static or sparse-view pipeline
 

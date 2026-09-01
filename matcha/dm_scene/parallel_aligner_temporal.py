@@ -985,7 +985,7 @@ class ParallelAlignerTemporal(ParallelAligner):
             elif lr_scheduler_type == 'step':
                 from torch.optim.lr_scheduler import StepLR
                 # Use step size based on lr_update_iters if available
-                step_size = lr_update_iters[0] if len(lr_update_iters) > 0 else n_iterations // 3
+                step_size = lr_update_iters[0] if len(lr_update_iters) > 0 else max(1, n_iterations // 3)
                 lr_scheduler = StepLR(
                     self.optimizer,
                     step_size=step_size,
@@ -1662,7 +1662,7 @@ class ParallelAlignerTemporal(ParallelAligner):
                         print("\n[INFO] Matching update skipped in memory-efficient mode.")
 
             with torch.no_grad():
-                iter_interval = n_iterations // 50
+                iter_interval = max(1, n_iterations // 50)
                 if i_iter % 10 == 0:
                     iter_total_time = time.time() - iter_start_time
                     print(f"\n[TIMING SUMMARY] Iteration {i_iter} total time: {iter_total_time:.4f}s")

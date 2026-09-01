@@ -16,6 +16,8 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from tools.generate_bound import cameras_json_to_poses_bounds
+
 VALID_SUFFIXES = {".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"}
 
 
@@ -864,6 +866,50 @@ def organize_final_dataset_structure(
                 shutil.rmtree(dst_priors)
             shutil.copytree(preprocessed_priors_dir, dst_priors)
             print(f"  [INFO] 已复制 preprocessed_priors")
+
+    if not dry_run:
+        # The MultipleView loader uses these legacy 4D-GS asset names.  The
+        # original preparation script left them to be created manually, which
+        # made a clean checkout fail at the beginning of refinement.
+        source_points = mast3r_sfm_dir / "points.ply"
+        multiple_view_points = mast3r_sfm_dir / "points3D_multipleview.ply"
+        if not source_points.is_file():
+            raise FileNotFoundError(f"缺少初始化点云: {source_points}")
+        shutil.copy2(source_points, multiple_view_points)
+
+        camera_json = mast3r_sfm_dir / "cameras.json"
+        if not camera_json.is_file():
+            raise FileNotFoundError(f"缺少相机参数: {camera_json}")
+        camera_data = json.loads(camera_json.read_text())
+        focals = camera_data.get("focals") or []
+        if not focals:
+            raise ValueError(f"cameras.json 中缺少 focals: {camera_json}")
+
+        camera_images = sorted(mast3r_sfm_dir.glob("cam*/*"), key=natural_key)
+        if not camera_images:
+            raise FileNotFoundError(f"最终数据集中没有相机图像: {mast3r_sfm_dir}")
+        from PIL import Image
+        with Image.open(camera_images[0]) as image:
+            height, width = image.height, image.width
+
+        poses_bounds = mast3r_sfm_dir / "poses_bounds_multipleview.npy"
+        cameras_json_to_poses_bounds(
+            camera_json,
+            ply_path=source_points,
+            output_path=poses_bounds,
+            hwf=(height, width, float(focals[0])),
+        )
+
+        required = [
+            multiple_view_points,
+            poses_bounds,
+            mast3r_sfm_dir / "sparse" / "0" / "images.bin",
+            mast3r_sfm_dir / "sparse" / "0" / "cameras.bin",
+            mast3r_sfm_dir / "preprocessed_priors" / "charts_data.npz",
+        ]
+        missing = [str(path) for path in required if not path.is_file()]
+        if missing:
+            raise FileNotFoundError("最终数据集不完整:\n  " + "\n  ".join(missing))
     
     print(f"[INFO] 步骤6完成")
     return final_dataset_dir

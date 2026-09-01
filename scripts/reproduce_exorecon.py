@@ -38,6 +38,11 @@ def parser() -> argparse.ArgumentParser:
         help="Also run optional semidense depth evaluation (not part of the main RGB table)",
     )
     result.add_argument("--results-root", type=Path, default=ROOT / "results")
+    result.add_argument(
+        "--depthanything-checkpoint-dir",
+        type=Path,
+        default=ROOT / "Depth-Anything-V2/checkpoints",
+    )
     result.add_argument("--sequences", nargs="+", help="Defaults to every sequence in the config")
     result.add_argument("--stages", nargs="+", choices=ALL_STAGES, default=list(ALL_STAGES))
     result.add_argument("--resume", action="store_true")
@@ -61,9 +66,17 @@ class Runner:
         self.config = config
         self.commands: list[dict[str, str]] = []
 
-    def run(self, stage: str, sequence: str, command: list[str], marker: Path | None = None) -> None:
-        if self.args.resume and marker is not None and marker.exists():
-            print(f"[{sequence}:{stage}] resume: found {marker}")
+    def run(
+        self,
+        stage: str,
+        sequence: str,
+        command: list[str],
+        completion: Path | None = None,
+        *,
+        write_marker: bool = False,
+    ) -> None:
+        if self.args.resume and completion is not None and completion.exists():
+            print(f"[{sequence}:{stage}] resume: found {completion}")
             return
         printable = shlex.join(command)
         self.commands.append({"sequence": sequence, "stage": stage, "command": printable})
@@ -71,19 +84,23 @@ class Runner:
         if self.args.dry_run:
             return
         subprocess.run(command, cwd=ROOT, check=True)
-        if marker is not None:
-            marker.parent.mkdir(parents=True, exist_ok=True)
-            marker.write_text(datetime.now(timezone.utc).isoformat() + "\n")
+        if completion is not None:
+            if write_marker:
+                completion.parent.mkdir(parents=True, exist_ok=True)
+                completion.write_text(datetime.now(timezone.utc).isoformat() + "\n")
+            elif not completion.exists():
+                raise SystemExit(f"{stage} completed without expected artifact: {completion}")
 
     def sequence_paths(self, sequence: str) -> dict[str, Path]:
         rank = int(self.config["temporal_alignment"]["rank"])
+        experiment_name = str(self.config["refinement"]["experiment_name"])
         sequence_config = self.config["sequences"][sequence]
         iteration = int(sequence_config.get("iteration", self.config["experiment"]["default_iteration"]))
         dataset = self.args.data_root / sequence / "dataset"
         raw = self.args.data_root / sequence / self.config["preparation"]["raw_subdir"]
         priors = dataset / f"resfield_rank{rank}_priors"
         final = dataset / "final_dataset"
-        model = final / f"free_gaussians_resfield_rank{rank}"
+        model = final / f"free_gaussians_{experiment_name}"
         result = model / "test" / f"ours_{iteration}"
         return {
             "dataset": dataset,
@@ -137,7 +154,7 @@ class Runner:
             self.run("prepare", sequence, command, marker)
 
         if "preprocess" in self.args.stages:
-            command = [sys.executable, str(ROOT / "scripts/preprocess_temporal_data.py"), "--data_dir", str(paths["frames"]), "--output_path", str(paths["preprocessed"]), "--start_frame", str(seq_config["start_frame"]), "--end_frame", str(seq_config["end_frame"]), "--config", alignment["config"]]
+            command = [sys.executable, str(ROOT / "scripts/preprocess_temporal_data.py"), "--data_dir", str(paths["frames"]), "--output_path", str(paths["preprocessed"]), "--start_frame", str(seq_config["start_frame"]), "--end_frame", str(seq_config["end_frame"]), "--config", alignment["config"], "--depthanythingv2_checkpoint_dir", str(self.args.depthanything_checkpoint_dir)]
             self.run("preprocess", sequence, command, paths["preprocessed"])
 
         if "align" in self.args.stages:
@@ -157,7 +174,7 @@ class Runner:
                 command.append("--use_ssi_loss")
             if alignment.get("ssi_loss_weight") is not None:
                 command.extend(["--ssi_loss_weight", str(alignment["ssi_loss_weight"])])
-            self.run("align", sequence, command, paths["priors"] / ".align-complete")
+            self.run("align", sequence, command, paths["priors"] / ".align-complete", write_marker=True)
 
         if "organize" in self.args.stages:
             marker = paths["priors"] / ".organize-complete"
@@ -177,7 +194,7 @@ class Runner:
                     marker.write_text(datetime.now(timezone.utc).isoformat() + "\n")
 
         if "finalize" in self.args.stages:
-            marker = paths["final"] / "mast3r_sfm" / "preprocessed_priors" / "charts_data.npz"
+            marker = paths["final"] / "mast3r_sfm" / ".finalize-complete"
             command = [
                 sys.executable, str(ROOT / "scripts/prepare_dataset_pipeline.py"),
                 str(paths["raw"]), "--output_base", str(paths["dataset"]),
@@ -187,18 +204,18 @@ class Runner:
             ]
             if self.args.dry_run:
                 command.append("--dry-run")
-            self.run("finalize", sequence, command, marker)
+            self.run("finalize", sequence, command, marker, write_marker=True)
 
         if "train" in self.args.stages:
             refinement_config = seq_config.get("refinement_config", refinement["default_config"])
-            command = [sys.executable, str(ROOT / "train.py"), "--source-path", str(paths["dataset"]), "--output-path", str(paths["final"]), "--preprocessed-dir", str(paths["priors"]), "--exp", str(refinement["experiment_name"]), "--free-gaussians-config", str(refinement_config), "--refinement-only"]
+            command = [sys.executable, str(ROOT / "train.py"), "--source-path", str(paths["dataset"]), "--output-path", str(paths["final"]), "--preprocessed-dir", str(paths["priors"]), "--exp", str(refinement["experiment_name"]), "--free-gaussians-config", str(refinement_config), "--depthanythingv2-checkpoint-dir", str(self.args.depthanything_checkpoint_dir), "--refinement-only"]
             if self.args.dry_run:
                 command.append("--dry-run")
-            self.run("train", sequence, command, paths["model"] / ".train-complete")
+            self.run("train", sequence, command, paths["model"] / ".train-complete", write_marker=True)
 
         if "render" in self.args.stages:
             command = [sys.executable, str(ROOT / "2d-gaussian-splatting/render.py"), "--model_path", str(paths["model"]), "--iteration", str(seq_config.get("iteration", self.config["experiment"]["default_iteration"])), "--skip_train"]
-            self.run("render", sequence, command, paths["result"] / ".render-complete")
+            self.run("render", sequence, command, paths["result"] / ".render-complete", write_marker=True)
 
         if "evaluate" in self.args.stages:
             rgb = [sys.executable, str(ROOT / "scripts/evaluate_rendering.py"), "--input_dir", str(paths["result"]), "--eval_mode", "full", "--output", str(paths["result"] / "eval_rendering.json")]
@@ -269,6 +286,7 @@ def main() -> None:
     args.data_root = args.data_root.expanduser().resolve()
     args.semidense_root = args.semidense_root.expanduser().resolve() if args.semidense_root else None
     args.results_root = args.results_root.expanduser().resolve()
+    args.depthanything_checkpoint_dir = args.depthanything_checkpoint_dir.expanduser().resolve()
     config = load_config(args.config.expanduser().resolve())
     sequences = args.sequences or list(config["sequences"])
     unknown = sorted(set(sequences) - set(config["sequences"]))

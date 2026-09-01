@@ -23,7 +23,8 @@ fi
 eval "$("${CONDA_EXE}" shell.bash hook)"
 conda activate "${CONDA_ENV}"
 
-REPO_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+REPO_ROOT=${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}
+DEPTHANYTHING_CHECKPOINT_DIR=${DEPTHANYTHING_CHECKPOINT_DIR:-${REPO_ROOT}/Depth-Anything-V2/checkpoints}
 SEQUENCES=(bike cooking cpr dance piano soccer)
 TASK_ID=${SLURM_ARRAY_TASK_ID:-0}
 if (( TASK_ID < 0 || TASK_ID >= ${#SEQUENCES[@]} )); then
@@ -39,5 +40,6 @@ export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
 python scripts/reproduce_exorecon.py \
   --config configs/paper/exorecon.yaml \
   --data-root "${DATA_ROOT}" \
+  --depthanything-checkpoint-dir "${DEPTHANYTHING_CHECKPOINT_DIR}" \
   --sequences "${SEQUENCES[$TASK_ID]}" \
   --resume
