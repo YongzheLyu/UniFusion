@@ -25,6 +25,7 @@ conda activate "${CONDA_ENV}"
 
 REPO_ROOT=${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}
 DEPTHANYTHING_CHECKPOINT_DIR=${DEPTHANYTHING_CHECKPOINT_DIR:-${REPO_ROOT}/Depth-Anything-V2/checkpoints}
+read -r -a PIPELINE_STAGES <<< "${STAGES:-prepare preprocess align organize finalize train render evaluate summarize}"
 SEQUENCES=(bike cooking cpr dance piano soccer)
 TASK_ID=${SLURM_ARRAY_TASK_ID:-0}
 if (( TASK_ID < 0 || TASK_ID >= ${#SEQUENCES[@]} )); then
@@ -42,4 +43,5 @@ python scripts/reproduce_exorecon.py \
   --data-root "${DATA_ROOT}" \
   --depthanything-checkpoint-dir "${DEPTHANYTHING_CHECKPOINT_DIR}" \
   --sequences "${SEQUENCES[$TASK_ID]}" \
+  --stages "${PIPELINE_STAGES[@]}" \
   --resume

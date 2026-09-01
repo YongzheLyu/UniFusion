@@ -66,6 +66,22 @@ only the final smoke stages.
 Set `DEPTHANYTHING_CHECKPOINT_DIR` when the weights are stored outside the
 repository checkout.
 
+For a refinement-only verification against existing prepared assets, create an
+isolated symlink workspace and select only the downstream stages:
+
+```bash
+python scripts/create_cached_workspace.py \
+  --source-data-root /datasets/ExoReconstruction \
+  --destination-data-root work/paper_reproduction \
+  --sequences bike
+DATA_ROOT=$PWD/work/paper_reproduction \
+STAGES='train render evaluate' \
+sbatch --array=0 cluster/reproduce_exorecon.slurm
+```
+
+The linked inputs remain outside Git and must be treated as read-only; all model
+and evaluation outputs are created in the isolated destination workspace.
+
 ## Reproducibility record
 
 Each invocation writes a JSON manifest under `results/manifests/` containing the

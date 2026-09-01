@@ -73,6 +73,35 @@ class ReleaseSmokeTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("prepare_dataset_pipeline.py", result.stdout)
 
+    def test_cached_workspace_keeps_inputs_as_symlinks(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "source/bike"
+            destination = root / "destination"
+            for path in (
+                source / "grouped_by_cams",
+                source / "dataset/renamed_images",
+                source / "dataset/frames_output",
+                source / "dataset/resfield_rank4_priors",
+                source / "dataset/final_dataset/mast3r_sfm",
+            ):
+                path.mkdir(parents=True)
+            result = subprocess.run(
+                [
+                    sys.executable, str(ROOT / "scripts/create_cached_workspace.py"),
+                    "--source-data-root", str(root / "source"),
+                    "--destination-data-root", str(destination),
+                    "--sequences", "bike",
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue((destination / "bike/dataset/frames_output").is_symlink())
+            self.assertTrue((destination / "bike/dataset/final_dataset/mast3r_sfm").is_symlink())
+
     def test_train_help(self) -> None:
         result = subprocess.run([sys.executable, str(ROOT / "train.py"), "--help"], cwd=ROOT, text=True, capture_output=True, check=False)
         self.assertEqual(result.returncode, 0, result.stderr)
