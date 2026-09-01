@@ -1,0 +1,14 @@
+{
+  "source": "User-provided main experiment row: plus ssi loss",
+  "scope": "ExoRecon held-out frames (DUSt3R); ablations and EgoHuman excluded",
+  "rows": [
+    {"sequence": "cooking", "psnr": 29.35, "ssim": 0.949, "lpips": 0.062},
+    {"sequence": "cpr", "psnr": 33.65, "ssim": 0.964, "lpips": 0.055},
+    {"sequence": "dance", "psnr": 31.35, "ssim": 0.966, "lpips": 0.070},
+    {"sequence": "soccer", "psnr": 31.96, "ssim": 0.948, "lpips": 0.064},
+    {"sequence": "piano", "psnr": 34.98, "ssim": 0.969, "lpips": 0.050},
+    {"sequence": "bike", "psnr": 30.12, "ssim": 0.935, "lpips": 0.084}
+  ],
+  "mean": {"psnr": 31.90166667, "ssim": 0.9551666667, "lpips": 0.0642}
+}
+

@@ -1,0 +1,67 @@
+experiment:
+  name: exorecon_rank4
+  seed: 0
+  default_iteration: 15000
+
+temporal_alignment:
+  config: temporal_default
+  rank: 4
+  encoding_type: learned
+  encoding_dim: 8
+  use_occlusion_loss: true
+  occlusion_loss_weight: 1.0
+  depth_order_loss_type: hinge
+  use_ssi_loss: true
+  ssi_loss_weight: 2.0
+
+refinement:
+  default_config: paper_15k
+  experiment_name: resfield_rank4
+
+evaluation:
+  train_stride: 3
+  device: cuda
+
+sequences:
+  bike:
+    iteration: 15000
+    refinement_config: paper_15k
+    semidense_id: cmu_bike14_2
+    start_frame: 0
+    end_frame: 299
+    frames_per_camera: 200
+  cooking:
+    iteration: 10000
+    refinement_config: paper_10k
+    semidense_id: iiith_cooking_123_4
+    start_frame: 0
+    end_frame: 299
+    frames_per_camera: 200
+  cpr:
+    iteration: 10000
+    refinement_config: paper_10k
+    semidense_id: nus_cpr_08_1
+    start_frame: 0
+    end_frame: 299
+    frames_per_camera: 200
+  dance:
+    iteration: 15000
+    refinement_config: paper_15k
+    semidense_id: uniandes_dance_020_18
+    start_frame: 0
+    end_frame: 299
+    frames_per_camera: 200
+  piano:
+    iteration: 15000
+    refinement_config: paper_15k
+    semidense_id: indiana_music_14_3
+    start_frame: 0
+    end_frame: 299
+    frames_per_camera: 200
+  soccer:
+    iteration: 10000
+    refinement_config: paper_10k
+    semidense_id: cmu_soccer07_3
+    start_frame: 0
+    end_frame: 237
+    frames_per_camera: 158

@@ -1,0 +1,76 @@
+# Python and test caches
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments and editor files
+.env
+.venv/
+env/
+venv/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+.codex
+
+# Native builds
+build/
+cmake-build-*/
+*.egg-info/
+dist/
+2d-gaussian-splatting/submodules/tetra-triangulation/build/
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+*.pkl
+Depth-Anything-V2/checkpoints/
+mast3r/checkpoints/
+
+# Datasets and generated priors
+data/
+dataset/
+datasets/
+frames_output/
+preprocessed_priors*/
+resfield_rank*_priors/
+*_priors/
+depth_maps/
+semidense_points/
+temporal_pointclouds/
+matcha_pointclouds/
+
+# Training and evaluation artifacts
+output/
+outputs/
+runs/
+results/
+logs/
+wandb/
+*.out
+*.err
+*.log
+*.ply
+*.obj
+*.npz
+*.npy
+*.zip
+*.tar
+*.tar.gz
+*.mp4
+
+# Generated visualizations (documentation assets are explicitly tracked)
+analysis_output/
+debug/
+tmp/
+deformation_heatmaps/
+depth_visualize/
+final_qualitative/
+
