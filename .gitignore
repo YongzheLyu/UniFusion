@@ -50,6 +50,7 @@ matcha_pointclouds/
 # Training and evaluation artifacts
 output/
 outputs/
+work/
 runs/
 results/
 logs/
@@ -73,4 +74,3 @@ tmp/
 deformation_heatmaps/
 depth_visualize/
 final_qualitative/
-

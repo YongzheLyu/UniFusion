@@ -58,6 +58,10 @@ CONDA_ENV=unifusion \
 sbatch --partition=<partition> --array=0-5 cluster/reproduce_exorecon.slurm
 ```
 
+Run `sbatch cluster/smoke_bike.slurm` first. The job creates a three-frame bike
+view under `work/smoke_data`, performs 3 alignment iterations and 20 2DGS
+iterations, and never writes into the source ExoRecon tree.
+
 ## Reproducibility record
 
 Each invocation writes a JSON manifest under `results/manifests/` containing the

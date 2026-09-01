@@ -11,7 +11,6 @@
 set -euo pipefail
 
 : "${DATA_ROOT:?Set DATA_ROOT before calling sbatch}"
-: "${SEMIDENSE_ROOT:?Set SEMIDENSE_ROOT before calling sbatch}"
 CONDA_ENV=${CONDA_ENV:-unifusion}
 
 if [[ -z "${CONDA_EXE:-}" ]]; then
@@ -40,7 +39,5 @@ export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
 python scripts/reproduce_exorecon.py \
   --config configs/paper/exorecon.yaml \
   --data-root "${DATA_ROOT}" \
-  --semidense-root "${SEMIDENSE_ROOT}" \
   --sequences "${SEQUENCES[$TASK_ID]}" \
   --resume
-

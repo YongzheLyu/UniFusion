@@ -132,6 +132,16 @@ Compare a completed run with the frozen pre-release reference:
 python scripts/compare_metrics.py results/exorecon_rank4_summary.json
 ```
 
+Before a full run, submit the isolated three-frame smoke test. It links existing
+prepared inputs read-only and writes everything below `work/smoke_data`:
+
+```bash
+sbatch cluster/smoke_bike.slurm
+```
+
+The smoke recipe uses 3 chart-alignment iterations and 20 2DGS iterations. It
+checks execution only and must never be reported as a paper result.
+
 ## Static or sparse-view pipeline
 
 The original MAtCha-compatible entry point remains available:

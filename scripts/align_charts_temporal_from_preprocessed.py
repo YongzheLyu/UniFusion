@@ -38,6 +38,8 @@ if __name__ == '__main__':
                        help='Enable scale-and-shift invariant depth regularization.')
     parser.add_argument('--ssi_loss_weight', type=float, default=None,
                        help='SSI loss weight. Overrides alignment.ssi_loss_weight when set.')
+    parser.add_argument('--alignment_iterations', type=int, default=None,
+                       help='Override the number of chart-alignment optimization iterations.')
 
     # Other parameters
     parser.add_argument('--start_frame', type=int, default=0,
@@ -211,6 +213,10 @@ if __name__ == '__main__':
         align_config['use_ssi_loss'] = True
     if args.ssi_loss_weight is not None:
         align_config['ssi_loss_weight'] = args.ssi_loss_weight
+    if args.alignment_iterations is not None:
+        if args.alignment_iterations < 1:
+            parser.error('--alignment_iterations must be positive')
+        align_config['n_iterations'] = args.alignment_iterations
     #test = input("pause")
     output = align_charts_temporal(
         # Scene

@@ -1,0 +1,39 @@
+experiment:
+  name: smoke_bike_rank4
+  seed: 0
+  default_iteration: 20
+
+temporal_alignment:
+  config: temporal_default
+  rank: 4
+  encoding_type: learned
+  encoding_dim: 8
+  iterations: 3
+  use_occlusion_loss: true
+  occlusion_loss_weight: 5.0
+  depth_order_loss_type: hinge
+  use_ssi_loss: true
+  ssi_loss_weight: 2.0
+
+refinement:
+  default_config: smoke
+  experiment_name: smoke_rank4
+
+preparation:
+  raw_subdir: grouped_by_cams
+  sfm_config: unposed
+  sfm_workers: 1
+
+evaluation:
+  train_stride: 3
+  device: cuda
+
+sequences:
+  bike:
+    input_frames: 3
+    iteration: 20
+    refinement_config: smoke
+    semidense_id: cmu_bike14_2
+    start_frame: 0
+    end_frame: 2
+    frames_per_camera: 2

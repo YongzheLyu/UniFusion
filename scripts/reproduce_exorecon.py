@@ -144,6 +144,9 @@ class Runner:
             if not self.args.dry_run and not paths["preprocessed"].is_file():
                 raise SystemExit(f"missing preprocessing artifact: {paths['preprocessed']}")
             command = [sys.executable, str(ROOT / "scripts/align_charts_temporal_from_preprocessed.py"), "--preprocessed_data", str(paths["preprocessed"]), "--output_path", str(paths["priors"]), "--temporal_encoding_type", str(alignment["encoding_type"]), "--temporal_encoding_dim", str(alignment["encoding_dim"]), "--rank", str(alignment["rank"])]
+            command.extend(["--start_frame", str(seq_config["start_frame"]), "--end_frame", str(seq_config["end_frame"])])
+            if alignment.get("iterations") is not None:
+                command.extend(["--alignment_iterations", str(alignment["iterations"])])
             if alignment.get("use_occlusion_loss"):
                 command.append("--use_occlusion_loss")
             if alignment.get("occlusion_loss_weight") is not None:

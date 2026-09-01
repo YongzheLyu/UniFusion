@@ -17,5 +17,5 @@ scikit-image==0.24.0
 scikit-learn==1.6.1
 tensorboard==2.19.0
 tqdm==4.67.1
+torchmetrics==1.8.2
 trimesh==4.6.4
-
