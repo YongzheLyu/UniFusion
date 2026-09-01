@@ -19,7 +19,10 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ALL_STAGES = ("preprocess", "align", "organize", "train", "render", "evaluate", "summarize")
+ALL_STAGES = (
+    "prepare", "preprocess", "align", "organize", "finalize",
+    "train", "render", "evaluate", "summarize",
+)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -77,12 +80,15 @@ class Runner:
         sequence_config = self.config["sequences"][sequence]
         iteration = int(sequence_config.get("iteration", self.config["experiment"]["default_iteration"]))
         dataset = self.args.data_root / sequence / "dataset"
+        raw = self.args.data_root / sequence / self.config["preparation"]["raw_subdir"]
         priors = dataset / f"resfield_rank{rank}_priors"
         final = dataset / "final_dataset"
         model = final / f"free_gaussians_resfield_rank{rank}"
         result = model / "test" / f"ours_{iteration}"
         return {
             "dataset": dataset,
+            "raw": raw,
+            "renamed": dataset / "renamed_images",
             "frames": dataset / "frames_output",
             "preprocessed": dataset / "frames_output" / "preprocessed_temporal_data.pkl",
             "priors": priors,
@@ -92,7 +98,13 @@ class Runner:
         }
 
     def validate_sequence(self, sequence: str, paths: dict[str, Path]) -> bool:
-        if not paths["dataset"].is_dir():
+        if "prepare" in self.args.stages and not paths["raw"].is_dir():
+            message = f"missing raw multi-camera directory for {sequence}: {paths['raw']}"
+            if self.args.allow_missing:
+                print(f"[skip] {message}")
+                return False
+            raise SystemExit(message)
+        if "prepare" not in self.args.stages and not paths["dataset"].is_dir():
             message = f"missing dataset directory for {sequence}: {paths['dataset']}"
             if self.args.allow_missing:
                 print(f"[skip] {message}")
@@ -108,7 +120,21 @@ class Runner:
             return
         alignment = self.config["temporal_alignment"]
         refinement = self.config["refinement"]
+        preparation = self.config["preparation"]
         seq_config = self.config["sequences"][sequence]
+
+        if "prepare" in self.args.stages:
+            last_frame = int(seq_config["input_frames"]) - 1
+            marker = paths["frames"] / f"frame_{last_frame:05d}" / "mast3r_sfm" / "cameras.json"
+            command = [
+                sys.executable, str(ROOT / "scripts/prepare_dataset_pipeline.py"),
+                str(paths["raw"]), "--output_base", str(paths["dataset"]),
+                "--only-step", "1", "2", "--sfm-config", str(preparation["sfm_config"]),
+                "--num-workers", str(preparation["sfm_workers"]), "--skip-existing-sfm",
+            ]
+            if self.args.dry_run:
+                command.append("--dry-run")
+            self.run("prepare", sequence, command, marker)
 
         if "preprocess" in self.args.stages:
             command = [sys.executable, str(ROOT / "scripts/preprocess_temporal_data.py"), "--data_dir", str(paths["frames"]), "--output_path", str(paths["preprocessed"]), "--start_frame", str(seq_config["start_frame"]), "--end_frame", str(seq_config["end_frame"]), "--config", alignment["config"]]
@@ -146,6 +172,19 @@ class Runner:
                             raise SystemExit(f"organize stage produced no charts_data.npz in {paths['priors']}")
                         shutil.copy2(charts, paths["priors"] / "charts_data.npz")
                     marker.write_text(datetime.now(timezone.utc).isoformat() + "\n")
+
+        if "finalize" in self.args.stages:
+            marker = paths["final"] / "mast3r_sfm" / "preprocessed_priors" / "charts_data.npz"
+            command = [
+                sys.executable, str(ROOT / "scripts/prepare_dataset_pipeline.py"),
+                str(paths["raw"]), "--output_base", str(paths["dataset"]),
+                "--only-step", "6", "--renamed-images-dir", str(paths["renamed"]),
+                "--priors-dir", str(paths["priors"]),
+                "--final-dataset-dir", str(paths["final"]),
+            ]
+            if self.args.dry_run:
+                command.append("--dry-run")
+            self.run("finalize", sequence, command, marker)
 
         if "train" in self.args.stages:
             refinement_config = seq_config.get("refinement_config", refinement["default_config"])

@@ -34,6 +34,20 @@ class ReleaseSmokeTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn("preprocess_temporal_data.py", result.stdout)
 
+    def test_prepare_dry_run(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "bike/grouped_by_cams").mkdir(parents=True)
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/reproduce_exorecon.py"), "--data-root", str(root), "--sequences", "bike", "--stages", "prepare", "--dry-run"],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("prepare_dataset_pipeline.py", result.stdout)
+
     def test_train_help(self) -> None:
         result = subprocess.run([sys.executable, str(ROOT / "train.py"), "--help"], cwd=ROOT, text=True, capture_output=True, check=False)
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -42,4 +56,3 @@ class ReleaseSmokeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

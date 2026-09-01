@@ -9,7 +9,7 @@ temporal_alignment:
   encoding_type: learned
   encoding_dim: 8
   use_occlusion_loss: true
-  occlusion_loss_weight: 1.0
+  occlusion_loss_weight: 5.0
   depth_order_loss_type: hinge
   use_ssi_loss: true
   ssi_loss_weight: 2.0
@@ -18,12 +18,18 @@ refinement:
   default_config: paper_15k
   experiment_name: resfield_rank4
 
+preparation:
+  raw_subdir: grouped_by_cams
+  sfm_config: unposed
+  sfm_workers: 1
+
 evaluation:
   train_stride: 3
   device: cuda
 
 sequences:
   bike:
+    input_frames: 300
     iteration: 15000
     refinement_config: paper_15k
     semidense_id: cmu_bike14_2
@@ -31,6 +37,7 @@ sequences:
     end_frame: 299
     frames_per_camera: 200
   cooking:
+    input_frames: 300
     iteration: 10000
     refinement_config: paper_10k
     semidense_id: iiith_cooking_123_4
@@ -38,6 +45,7 @@ sequences:
     end_frame: 299
     frames_per_camera: 200
   cpr:
+    input_frames: 300
     iteration: 10000
     refinement_config: paper_10k
     semidense_id: nus_cpr_08_1
@@ -45,6 +53,7 @@ sequences:
     end_frame: 299
     frames_per_camera: 200
   dance:
+    input_frames: 301
     iteration: 15000
     refinement_config: paper_15k
     semidense_id: uniandes_dance_020_18
@@ -52,6 +61,7 @@ sequences:
     end_frame: 299
     frames_per_camera: 200
   piano:
+    input_frames: 300
     iteration: 15000
     refinement_config: paper_15k
     semidense_id: indiana_music_14_3
@@ -59,6 +69,7 @@ sequences:
     end_frame: 299
     frames_per_camera: 200
   soccer:
+    input_frames: 238
     iteration: 10000
     refinement_config: paper_10k
     semidense_id: cmu_soccer07_3

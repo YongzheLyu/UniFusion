@@ -142,7 +142,7 @@ def convert_colmap_to_pose_metadata(colmap_dir: Path, output_path: Path, image_s
         selected_colmap_ids = []
         for idx in camera_ids:
             if 0 <= idx < len(exo_camera_ids):
-                selected_colmap_ids.append(exo_camera_ids[idx-1])
+                selected_colmap_ids.append(exo_camera_ids[idx])
             else:
                 print(f"[WARNING] 索引 {idx} 超出范围，exo cameras 共 {len(exo_camera_ids)} 个")
         print(f"[INFO] 根据索引 {camera_ids} 选择的 COLMAP camera IDs: {selected_colmap_ids}")
@@ -666,9 +666,10 @@ def run_mast3r_sfm(
         sfm_config = "posed"
 
     cmd = [
-        "python", str(script_path), str(input_dir), str(output_dir),
+        sys.executable, str(script_path), str(input_dir), str(output_dir),
         "--sfm-config", sfm_config, "--start-frame", str(start_frame)
     ]
+    cmd.extend(["--num-workers", str(num_workers)])
 
     if stop_frame is not None:
         cmd.extend(["--stop-frame", str(stop_frame)])
@@ -709,7 +710,7 @@ def preprocess_temporal_data(data_dir: Path, output_path: Optional[Path] = None,
         print(f"[INFO] 自动检测到 {n_charts} 个相机")
     
     cmd = [
-        "python", str(script_path), "-d", str(data_dir), "-o", str(output_path),
+        sys.executable, str(script_path), "-d", str(data_dir), "-o", str(output_path),
         "-c", config, "--n_charts", str(n_charts), "--batch_size", "50"
     ]
     
@@ -742,7 +743,7 @@ def align_charts_temporal(preprocessed_data_path: Path, output_path: Optional[Pa
         output_path = preprocessed_data_path.parent / "temporal_charts"
     
     cmd = [
-        "python", str(script_path), "-p", str(preprocessed_data_path), "-o", str(output_path),
+        sys.executable, str(script_path), "-p", str(preprocessed_data_path), "-o", str(output_path),
         "--start_frame", str(start_frame)
     ]
     
@@ -776,7 +777,7 @@ def organize_priors(input_folder: Path, priors_folder: Optional[Path] = None, dr
     if priors_folder is None:
         priors_folder = input_folder.parent / "priors"
     
-    cmd = ["python", str(script_path), str(input_folder), "--priors-folder", str(priors_folder)]
+    cmd = [sys.executable, str(script_path), str(input_folder), "--priors-folder", str(priors_folder)]
     
     if dry_run:
         cmd.append("--dry-run")
@@ -911,10 +912,9 @@ def main():
     if args.preprocessed_depth_dir is None:
         args.preprocessed_depth_dir = frame_output_dir / "preprocessed_depth"
     if args.priors_dir is None:
-        args.priors_dir = args.output_base / "wo_ssi_occlusion_priors"
+        args.priors_dir = args.output_base / "priors"
     if args.final_dataset_dir is None:
         args.final_dataset_dir = args.output_base / "final_dataset"
-    print("????????????????????????")
     # Presetpose 模式处理
     preset_pose_json_path = None
     preset_pose_colmap_dir = None
@@ -1066,8 +1066,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-                                                      
- 

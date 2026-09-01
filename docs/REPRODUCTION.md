@@ -2,14 +2,21 @@
 
 ## Stages
 
-1. `preprocess` builds the reusable temporal pickle from per-frame MASt3R data.
-2. `align` optimizes time-conditioned charts and writes rank-specific priors.
-3. `organize` converts alignment outputs to the layout consumed by 2DGS.
-4. `train` refines and densifies the 2D Gaussian representation for 15k steps.
-5. `render` exports held-out RGB and depth predictions.
-6. `evaluate` computes the main-table full-frame RGB metrics. Pass
+1. `prepare` standardizes four synchronized camera streams and runs per-frame
+   MASt3R SfM.
+2. `preprocess` runs Depth Anything pointmap construction, scale/reference-data
+   preparation, and writes the reusable temporal pickle.
+3. `align` optimizes rank-4 time-conditioned charts with hinge depth-order and
+   SSI losses.
+4. `organize` converts alignment outputs to per-camera depths, confidences, and
+   chart data.
+5. `finalize` assembles the MASt3R scene, temporal images, and priors into the
+   dataset layout consumed by 2DGS.
+6. `train` refines and densifies the 2D Gaussian representation.
+7. `render` exports held-out RGB and depth predictions.
+8. `evaluate` computes the main-table full-frame RGB metrics. Pass
    `--evaluate-depth --semidense-root ...` to additionally evaluate depth.
-7. `summarize` aggregates all requested sequences into one JSON file.
+9. `summarize` aggregates all requested sequences into one JSON file.
 
 Use `--resume` after preemption. A stage marker is written only after its command
 returns successfully. Remove only that marker if a completed artifact needs to be
@@ -18,8 +25,12 @@ regenerated.
 ## Main setting
 
 The paper setting is fully described by `configs/paper/exorecon.yaml`: rank 4,
-learned eight-dimensional time encoding, hinge depth-order supervision, and SSI
-depth regularization with weight 2.0.
+learned eight-dimensional time encoding, hinge depth-order supervision with
+weight 5.0, and SSI depth regularization with weight 2.0.
+
+RAFT flow caches found in the internal experiment workspace are used only by the
+optional depth-consistency diagnostic. They are not inputs to the main RGB
+experiment and are deliberately excluded from this pipeline.
 Following the experiment sheet, cooking, cpr, and soccer use 10k 2DGS iterations;
 dance, piano, and bike retain the 15k setting. Use the config unmodified for the
 main table.
