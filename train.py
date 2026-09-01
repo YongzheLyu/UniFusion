@@ -34,6 +34,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--depth-model", "--depth_model", default="depthanythingv2")
     parser.add_argument("--depthanythingv2-checkpoint-dir", "--depthanythingv2_checkpoint_dir", type=Path, default=ROOT / "Depth-Anything-V2" / "checkpoints")
     parser.add_argument("--depthanything-encoder", "--depthanything_encoder", default="vitl", choices=["vits", "vitb", "vitl", "vitg"])
+    parser.add_argument("--seed", type=int, default=10086)
     parser.add_argument("--free-gaussians-config", "--free_gaussians_config")
     parser.add_argument("--tsdf-config", "--tsdf_config", default="default")
     parser.add_argument("--preprocessed-dir", "--preprocessed_dir", type=Path)
@@ -90,6 +91,7 @@ def main() -> None:
     refinement.extend([
         "--depthanythingv2_checkpoint_dir", str(args.depthanythingv2_checkpoint_dir),
         "--depthanything_encoder", args.depthanything_encoder,
+        "--seed", str(args.seed),
     ])
     append_option(refinement, "--dense_data_path", source if args.dense_supervision else None)
     append_option(refinement, "--preprocessed_dir", args.preprocessed_dir)

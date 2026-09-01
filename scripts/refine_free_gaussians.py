@@ -27,6 +27,7 @@ def main() -> None:
     parser.add_argument("--dense-data-path", "--dense_data_path", type=Path)
     parser.add_argument("--depthanythingv2-checkpoint-dir", "--depthanythingv2_checkpoint_dir", type=Path, default=ROOT / "Depth-Anything-V2/checkpoints")
     parser.add_argument("--depthanything-encoder", "--depthanything_encoder", default="vitl")
+    parser.add_argument("--seed", type=int, default=10086)
     parser.add_argument("--dense-regul", "--dense_regul", choices=["default", "strong", "weak", "none"], default="default")
     parser.add_argument("--preprocessed-dir", "--preprocessed_dir", type=Path)
     parser.add_argument("-c", "--config", default="default")
@@ -66,6 +67,7 @@ def main() -> None:
         "--depthanythingv2_checkpoint_dir", str(args.depthanythingv2_checkpoint_dir),
         "--depthanything_encoder", args.depthanything_encoder,
         "--dense_regul", args.dense_regul,
+        "--seed", str(args.seed),
     ]
     if config["use_mip_filter"]:
         command.append("--use_mip_filter")
@@ -85,4 +87,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -208,7 +208,7 @@ class Runner:
 
         if "train" in self.args.stages:
             refinement_config = seq_config.get("refinement_config", refinement["default_config"])
-            command = [sys.executable, str(ROOT / "train.py"), "--source-path", str(paths["dataset"]), "--output-path", str(paths["final"]), "--preprocessed-dir", str(paths["priors"]), "--exp", str(refinement["experiment_name"]), "--free-gaussians-config", str(refinement_config), "--depthanythingv2-checkpoint-dir", str(self.args.depthanything_checkpoint_dir), "--refinement-only"]
+            command = [sys.executable, str(ROOT / "train.py"), "--source-path", str(paths["dataset"]), "--output-path", str(paths["final"]), "--preprocessed-dir", str(paths["priors"]), "--exp", str(refinement["experiment_name"]), "--free-gaussians-config", str(refinement_config), "--depthanythingv2-checkpoint-dir", str(self.args.depthanything_checkpoint_dir), "--seed", str(self.config["experiment"]["seed"]), "--refinement-only"]
             if self.args.dry_run:
                 command.append("--dry-run")
             self.run("train", sequence, command, paths["model"] / ".train-complete", write_marker=True)

@@ -97,6 +97,7 @@ class ReleaseSmokeTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn(str(checkpoint), result.stdout)
+            self.assertIn("--seed 10086", result.stdout)
 
 
 if __name__ == "__main__":

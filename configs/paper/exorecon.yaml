@@ -1,6 +1,6 @@
 experiment:
   name: exorecon_rank4
-  seed: 0
+  seed: 10086
   default_iteration: 15000
 
 temporal_alignment:
