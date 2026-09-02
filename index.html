@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="UniFusion: unified spatio-temporal depth alignment for sparse-view 4D reconstruction.">
+  <meta name="keywords" content="UniFusion, 4D reconstruction, sparse view, depth alignment, Gaussian splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="UniFusion: Sparse-View 4D Reconstruction">
+  <meta property="og:description" content="Unified spatio-temporal depth alignment for sparse-view 4D reconstruction.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://yongzhelyu.github.io/UniFusion/static/images/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UniFusion: Sparse-View 4D Reconstruction">
+  <meta name="twitter:description" content="Unified spatio-temporal depth alignment for sparse-view 4D reconstruction.">
+  <meta name="twitter:image" content="https://yongzhelyu.github.io/UniFusion/static/images/og.png">
+  <title>UniFusion: Sparse-View 4D Reconstruction</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/index.css?v=section-centering-20260825">
+  <link rel="icon" href="./static/images/favicon.svg">
+</head>
+<body>
+  <section class="hero publication-header">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title"><span class="unifusion">UniFusion</span>: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><a href="https://yongzhelyu.github.io/">Yongzhe Lyu</a><sup>*</sup>,</span>
+              <span class="author-block"><a href="https://taconite.github.io/">Shaofei Wang</a><sup>*</sup>,</span>
+              <span class="author-block"><a href="https://yixchen.github.io/">Yixin Chen</a><sup>†</sup>,</span>
+              <span class="author-block"><a href="https://siyuanhuang.com/">Siyuan Huang</a><sup>†</sup></span>
+            </div>
+            <div class="is-size-5 publication-affiliation">
+              <span class="author-block"><a href="https://www.bigai.ai/">State Key Laboratory of General Artificial Intelligence, BIGAI</a></span>
+            </div>
+            <div class="is-size-7 author-notes"><sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding authors</div>
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block"><a href="./static/paper/UniFusion-paper.pdf" class="external-link button is-normal is-rounded is-dark"><span class="button-mark">PDF</span><span>Paper</span></a></span>
+                <span class="link-block"><span class="button is-normal is-rounded is-dark is-static"><span class="button-mark">&lt;/&gt;</span><span>Code Soon</span></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section video-section" id="video">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 centered-section-title">Video</h2>
+      <video id="teaser" class="teaser-video" autoplay muted loop playsinline controls preload="metadata" poster="./static/images/teaser.jpg?v=demo-20260825">
+        <source src="./static/videos/UniFusion.mp4?v=demo-20260825" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p class="has-text-centered teaser-copy"><span class="unifusion">UniFusion</span> jointly aligns monocular depths across sparse views and time, providing reliable initialization and supervision for 4D Gaussian splatting.</p>
+    </div>
+  </section>
+
+  <section class="section" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 centered-section-title">Abstract</h2>
+          <div class="content has-text-justified abstract-copy">
+            <p>We address sparse-view 4D reconstruction, where limited cross-view overlap and temporal variation make monocular depth predictions inconsistent across both views and time. Existing methods align these dimensions in separate stages and depend on foreground masks and tracking models.</p>
+            <p>UniFusion introduces a unified spatio-temporal depth alignment framework that represents all depth maps as spatio-temporal neural fields. It jointly resolves cross-view and cross-time inconsistencies without distinguishing foreground from background. A multi-view depth-order loss and a scale-and-shift-invariant loss further improve depth quality.</p>
+            <p>The aligned depths initialize and supervise Gaussian splatting models. Experiments on Ego-Exo4D and EgoHuman show consistent improvements in novel-view / time synthesis and geometry, including PSNR gains of 4–6 dB and absolute relative depth-error reductions of 14–40%.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section method-section" id="method">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Method</h2>
+          <div class="content has-text-justified method-intro"><p>All temporal frames from one view share the same spatial representation, while compact residual weights condition the alignment network on time-dependent variation. The aligned depths then provide geometric initialization and supervision for 4D Gaussian splatting.</p></div>
+          <img class="method-image" src="./static/images/method.webp" alt="Overview of unified spatio-temporal depth alignment and 4D Gaussian splatting reconstruction.">
+          <div class="columns is-centered method-columns">
+            <div class="column"><h3 class="title is-5">Shared spatial chart</h3><p>Per-view encodings capture geometry shared across all frames.</p></div>
+            <div class="column"><h3 class="title is-5">Residual temporal weights</h3><p>Low-rank residuals efficiently model time-dependent depth variation.</p></div>
+            <div class="column"><h3 class="title is-5">Geometry-aware losses</h3><p>Multi-view ordering and scale-shift invariance refine aligned depth.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Results</h2>
+          <div class="content has-text-justified results-intro"><p>UniFusion consistently improves two Gaussian-splatting backends across novel-time and novel-view synthesis. Browse the video and image comparisons below.</p></div>
+
+          <h3 class="title is-4 result-subsection-title">Video Comparisons</h3>
+          <nav class="backend-tabs" role="tablist" aria-label="Results by reconstruction backend">
+            <button class="backend-tab is-active" id="tab-deformable" type="button" role="tab" aria-selected="true" aria-controls="panel-deformable" data-target="panel-deformable">Deformable 2DGS</button>
+            <button class="backend-tab" id="tab-monofusion" type="button" role="tab" aria-selected="false" aria-controls="panel-monofusion" data-target="panel-monofusion" tabindex="-1">MonoFusion</button>
+          </nav>
+
+          <div class="backend-panel is-active" id="panel-deformable" role="tabpanel" aria-labelledby="tab-deformable">
+            <div class="result-carousel-shell" data-carousel>
+              <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous Deformable 2DGS result">&#8249;</button>
+              <div class="result-carousel-track" tabindex="0">
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-temporal.mp4?v=first-frame-fix" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel-time synthesis</h3><p>Fencing · Left: RGB, right: depth · Top: baseline, bottom: + UniFusion.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-novel-5deg.mp4?v=first-frame-fix" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel view · 5°</h3><p>Lego · Left: RGB, right: depth · Top: baseline, bottom: + UniFusion.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-novel-45deg.mp4?v=first-frame-fix" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel view · 45°</h3><p>Cooking · Left: RGB, right: depth · Top: baseline, bottom: + UniFusion.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/deformable-surround.mp4?v=first-frame-fix" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Surround view</h3><p>Fencing · Left: RGB, right: depth · Top: baseline, bottom: + UniFusion.</p></div>
+              </article>
+              </div>
+              <button class="carousel-arrow carousel-next" type="button" aria-label="Next Deformable 2DGS result">&#8250;</button>
+              <div class="carousel-dots" aria-label="Deformable 2DGS gallery navigation"></div>
+            </div>
+          </div>
+
+          <div class="backend-panel" id="panel-monofusion" role="tabpanel" aria-labelledby="tab-monofusion" hidden>
+            <div class="result-carousel-shell" data-carousel>
+              <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous MonoFusion result">&#8249;</button>
+              <div class="result-carousel-track" tabindex="0">
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/monofusion-temporal.mp4?v=first-frame-fix" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Novel-time synthesis</h3><p>Music · Left: RGB, right: depth · Top: baseline, bottom: + UniFusion.</p></div>
+              </article>
+              <article class="result-video-card">
+                <video muted loop playsinline controls preload="metadata"><source src="./static/videos/results/monofusion-surround.mp4?v=first-frame-fix" type="video/mp4"></video>
+                <div class="result-video-copy"><h3>Surround view</h3><p>Music · Left: RGB, right: depth · Top: baseline, bottom: + UniFusion.</p></div>
+              </article>
+              </div>
+              <button class="carousel-arrow carousel-next" type="button" aria-label="Next MonoFusion result">&#8250;</button>
+              <div class="carousel-dots" aria-label="MonoFusion gallery navigation"></div>
+            </div>
+          </div>
+
+          <div class="static-comparison-block">
+            <h3 class="title is-4">Static Comparisons</h3>
+            <p class="static-comparison-intro">Drag the divider to compare each backend with its UniFusion-enhanced result. Use the arrows or swipe to browse scenes.</p>
+
+            <nav class="backend-tabs static-backend-tabs" role="tablist" aria-label="Static comparisons by reconstruction backend">
+              <button class="static-backend-tab" id="static-tab-monofusion" type="button" role="tab" aria-selected="false" aria-controls="static-panel-monofusion" data-static-target="static-panel-monofusion" tabindex="-1">MonoFusion</button>
+              <button class="static-backend-tab is-active" id="static-tab-deformable" type="button" role="tab" aria-selected="true" aria-controls="static-panel-deformable" data-static-target="static-panel-deformable">Deformable 2DGS</button>
+            </nav>
+
+            <div class="static-backend-panel" id="static-panel-monofusion" role="tabpanel" aria-labelledby="static-tab-monofusion" hidden>
+              <div class="comparison-carousel" data-static-carousel>
+                <button class="comparison-arrow comparison-prev" type="button" aria-label="Previous MonoFusion static comparison">&#8249;</button>
+                <div class="comparison-track" tabindex="0">
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view · 45°</h4><span>Cooking · Ego-Exo4D</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/monofusion-novel-before.webp" alt="Cooking result produced by MonoFusion.">
+                      <div class="compare-after"><img src="./static/images/comparisons/monofusion-novel-after.webp" alt="Cooking result produced by MonoFusion with UniFusion."></div>
+                      <span class="compare-label compare-label-left">MonoFusion + UniFusion</span><span class="compare-label compare-label-right">MonoFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare MonoFusion and MonoFusion with UniFusion on Cooking">
+                    </div>
+                  </article>
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view</h4><span>Fencing · EgoHumans</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/monofusion-egohuman-before.webp" alt="Fencing result produced by MonoFusion.">
+                      <div class="compare-after"><img src="./static/images/comparisons/monofusion-egohuman-after.webp" alt="Fencing result produced by MonoFusion with UniFusion."></div>
+                      <span class="compare-label compare-label-left">MonoFusion + UniFusion</span><span class="compare-label compare-label-right">MonoFusion</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare MonoFusion and MonoFusion with UniFusion on Fencing">
+                    </div>
+                  </article>
+                </div>
+                <button class="comparison-arrow comparison-next" type="button" aria-label="Next MonoFusion static comparison">&#8250;</button>
+                <div class="comparison-dots" aria-label="MonoFusion static comparison navigation"></div>
+              </div>
+            </div>
+
+            <div class="static-backend-panel is-active" id="static-panel-deformable" role="tabpanel" aria-labelledby="static-tab-deformable">
+              <div class="comparison-carousel" data-static-carousel>
+                <button class="comparison-arrow comparison-prev" type="button" aria-label="Previous Deformable 2DGS static comparison">&#8249;</button>
+                <div class="comparison-track" tabindex="0">
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view · 45°</h4><span>Cooking · Ego-Exo4D</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/deformable-novel-before.webp" alt="Cooking result produced by Deformable 2DGS.">
+                      <div class="compare-after"><img src="./static/images/comparisons/deformable-novel-after.webp" alt="Cooking result produced by Deformable 2DGS with UniFusion."></div>
+                      <span class="compare-label compare-label-left">Deformable 2DGS + UniFusion</span><span class="compare-label compare-label-right">Deformable 2DGS</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare Deformable 2DGS and Deformable 2DGS with UniFusion on Cooking">
+                    </div>
+                  </article>
+                  <article class="comparison-slide">
+                    <div class="comparison-heading"><h4>Novel view</h4><span>Fencing · EgoHumans</span></div>
+                    <div class="compare-frame" data-compare style="--split: 50%;">
+                      <img class="compare-before" src="./static/images/comparisons/deformable-egohuman-before.webp" alt="Fencing result produced by Deformable 2DGS.">
+                      <div class="compare-after"><img src="./static/images/comparisons/deformable-egohuman-after.webp" alt="Fencing result produced by Deformable 2DGS with UniFusion."></div>
+                      <span class="compare-label compare-label-left">Deformable 2DGS + UniFusion</span><span class="compare-label compare-label-right">Deformable 2DGS</span>
+                      <span class="compare-divider" aria-hidden="true"><span>&#8596;</span></span>
+                      <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare Deformable 2DGS and Deformable 2DGS with UniFusion on Fencing">
+                    </div>
+                  </article>
+                </div>
+                <button class="comparison-arrow comparison-next" type="button" aria-label="Next Deformable 2DGS static comparison">&#8250;</button>
+                <div class="comparison-dots" aria-label="Deformable 2DGS static comparison navigation"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{lyu2026unifusion,
+  author = {Lyu, Yongzhe and Wang, Shaofei and Chen, Yixin and Huang, Siyuan},
+  title  = {UniFusion: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment},
+  year   = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const tabs = Array.from(document.querySelectorAll('.backend-tab'));
+      const panels = Array.from(document.querySelectorAll('.backend-panel'));
+      const carouselControllers = [];
+
+      document.querySelectorAll('[data-carousel]').forEach((shell) => {
+        const track = shell.querySelector('.result-carousel-track');
+        const slides = Array.from(shell.querySelectorAll('.result-video-card'));
+        const previous = shell.querySelector('.carousel-prev');
+        const next = shell.querySelector('.carousel-next');
+        const dotsHost = shell.querySelector('.carousel-dots');
+        let currentIndex = 0;
+        let scrollTimer;
+
+        const dots = slides.map((_, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'carousel-dot';
+          dot.setAttribute('aria-label', `Show result ${index + 1}`);
+          dot.addEventListener('click', () => goTo(index));
+          dotsHost.appendChild(dot);
+          return dot;
+        });
+
+        function syncPlayback() {
+          const panel = shell.closest('.backend-panel');
+          slides.forEach((slide, index) => {
+            const video = slide.querySelector('video');
+            if (!panel.hidden && index === currentIndex) video.play().catch(() => {});
+            else video.pause();
+          });
+        }
+
+        function updateDots() {
+          dots.forEach((dot, index) => {
+            const active = index === currentIndex;
+            dot.classList.toggle('is-active', active);
+            dot.setAttribute('aria-current', active ? 'true' : 'false');
+          });
+        }
+
+        function goTo(index, smooth = true) {
+          currentIndex = (index + slides.length) % slides.length;
+          track.scrollTo({ left: currentIndex * track.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
+          updateDots();
+          syncPlayback();
+        }
+
+        previous.addEventListener('click', () => goTo(currentIndex - 1));
+        next.addEventListener('click', () => goTo(currentIndex + 1));
+        track.addEventListener('scroll', () => {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => {
+            currentIndex = Math.round(track.scrollLeft / track.clientWidth);
+            updateDots();
+            syncPlayback();
+          }, 80);
+        });
+        track.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          goTo(currentIndex + (event.key === 'ArrowRight' ? 1 : -1));
+        });
+
+        updateDots();
+        carouselControllers.push({ refresh: () => goTo(currentIndex, false) });
+      });
+
+      function activateTab(tab) {
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-selected', String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+
+        panels.forEach((panel) => {
+          const active = panel.id === tab.dataset.target;
+          panel.classList.toggle('is-active', active);
+          panel.hidden = !active;
+        });
+        requestAnimationFrame(() => carouselControllers.forEach((controller) => controller.refresh()));
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activateTab(tab));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const next = tabs[(index + direction + tabs.length) % tabs.length];
+          activateTab(next);
+          next.focus();
+        });
+      });
+
+      const staticTabs = Array.from(document.querySelectorAll('.static-backend-tab'));
+      const staticPanels = Array.from(document.querySelectorAll('.static-backend-panel'));
+      const staticCarouselControllers = [];
+
+      document.querySelectorAll('[data-compare]').forEach((frame) => {
+        const range = frame.querySelector('.compare-range');
+        range.addEventListener('input', () => frame.style.setProperty('--split', `${range.value}%`));
+      });
+
+      document.querySelectorAll('[data-static-carousel]').forEach((shell) => {
+        const track = shell.querySelector('.comparison-track');
+        const slides = Array.from(shell.querySelectorAll('.comparison-slide'));
+        const previous = shell.querySelector('.comparison-prev');
+        const next = shell.querySelector('.comparison-next');
+        const dotsHost = shell.querySelector('.comparison-dots');
+        let currentIndex = 0;
+        let scrollTimer;
+
+        const dots = slides.map((_, index) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'comparison-dot';
+          dot.setAttribute('aria-label', `Show static comparison ${index + 1}`);
+          dot.addEventListener('click', () => goTo(index));
+          dotsHost.appendChild(dot);
+          return dot;
+        });
+
+        function updateDots() {
+          dots.forEach((dot, index) => {
+            const active = index === currentIndex;
+            dot.classList.toggle('is-active', active);
+            dot.setAttribute('aria-current', active ? 'true' : 'false');
+          });
+        }
+
+        function goTo(index, smooth = true) {
+          currentIndex = (index + slides.length) % slides.length;
+          track.scrollTo({ left: currentIndex * track.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
+          updateDots();
+        }
+
+        previous.addEventListener('click', () => goTo(currentIndex - 1));
+        next.addEventListener('click', () => goTo(currentIndex + 1));
+        track.addEventListener('scroll', () => {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => {
+            currentIndex = Math.round(track.scrollLeft / track.clientWidth);
+            updateDots();
+          }, 80);
+        });
+        track.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          if (event.target.matches('.compare-range')) return;
+          event.preventDefault();
+          goTo(currentIndex + (event.key === 'ArrowRight' ? 1 : -1));
+        });
+
+        updateDots();
+        staticCarouselControllers.push({ refresh: () => goTo(currentIndex, false) });
+      });
+
+      function activateStaticTab(tab) {
+        staticTabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-selected', String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+        staticPanels.forEach((panel) => {
+          const active = panel.id === tab.dataset.staticTarget;
+          panel.classList.toggle('is-active', active);
+          panel.hidden = !active;
+        });
+        requestAnimationFrame(() => staticCarouselControllers.forEach((controller) => controller.refresh()));
+      }
+
+      staticTabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activateStaticTab(tab));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const next = staticTabs[(index + direction + staticTabs.length) % staticTabs.length];
+          activateStaticTab(next);
+          next.focus();
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        carouselControllers.forEach((controller) => controller.refresh());
+        staticCarouselControllers.forEach((controller) => controller.refresh());
+      });
+      carouselControllers.forEach((controller) => controller.refresh());
+      staticCarouselControllers.forEach((controller) => controller.refresh());
+    })();
+  </script>
+</body>
+</html>
