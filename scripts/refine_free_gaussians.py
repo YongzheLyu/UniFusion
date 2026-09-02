@@ -30,6 +30,10 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=10086)
     parser.add_argument("--dense-regul", "--dense_regul", choices=["default", "strong", "weak", "none"], default="default")
     parser.add_argument("--preprocessed-dir", "--preprocessed_dir", type=Path)
+    parser.add_argument(
+        "--initialization", choices=("charts", "sfm"), default="charts",
+        help="Gaussian initialization source; sfm is a legacy fallback",
+    )
     parser.add_argument("-c", "--config", default="default")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
@@ -68,6 +72,7 @@ def main() -> None:
         "--depthanything_encoder", args.depthanything_encoder,
         "--dense_regul", args.dense_regul,
         "--seed", str(args.seed),
+        "--initialization", args.initialization,
     ]
     if config["use_mip_filter"]:
         command.append("--use_mip_filter")

@@ -1103,7 +1103,7 @@ def training(
     normal_consistency_from, distortion_from,
     depthanythingv2_checkpoint_dir, depthanything_encoder,
     dense_regul, coarse_iterations, warmup_iterations=1000, preprocessed_priors_dir=None, frames=10,
-    warmup_frame_sampling="all"
+    warmup_frame_sampling="all", initialization="charts"
 ):
     """
     重构后的 training：负责初始化 gaussians、charts、dense 数据等，
@@ -1190,7 +1190,8 @@ def training(
     normals = np.asarray(pcd.normals) if pcd.has_normals() else np.zeros_like(points)
     from utils.graphics_utils import BasicPointCloud
     bpc = BasicPointCloud(points=points, colors=colors, normals=normals)
-    if "bike" in preprocessed_priors_dir:
+    if initialization == "sfm":
+        print(f"[WARNING] Initializing Gaussians from the fallback SfM point cloud: {ply_path}")
         gaussians.create_from_pcd(bpc, gaussians.spatial_lr_scale)
     else:
         # Filter charts_data to only include training cameras
@@ -1595,6 +1596,10 @@ if __name__ == "__main__":
     parser.add_argument('--preprocessed_priors_dir', type=str, default=None, help='Directory containing preprocessed priors (depths, confs, normals, curvs)')
     parser.add_argument('--frames', type=int, default=8)
     parser.add_argument('--seed', type=int, default=10086, help='Random seed for reproducible results. If not specified, uses system time.')
+    parser.add_argument(
+        '--initialization', choices=['charts', 'sfm'], default='charts',
+        help='Gaussian initialization source. Use charts for paper reproduction; sfm is an explicit legacy fallback.',
+    )
     #parser.add_argument('--coarse_iterations', type=int, default=0, help='Number of static coarse training iterations')
     parser.add_argument('--warmup_iterations', type=int, default=0,
                         help='Number of warm-up iterations (before fine stage, only train deformation MLP, freeze gaussians)')
@@ -1637,7 +1642,8 @@ if __name__ == "__main__":
         args.normal_consistency_from, args.distortion_from,
         args.depthanythingv2_checkpoint_dir, args.depthanything_encoder,
         args.dense_regul, args.coarse_iterations, args.warmup_iterations,
-        args.preprocessed_priors_dir, args.frames, args.warmup_frame_sampling
+        args.preprocessed_priors_dir, args.frames, args.warmup_frame_sampling,
+        args.initialization
     )
 
     print("\nTraining complete.")
