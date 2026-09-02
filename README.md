@@ -1,12 +1,16 @@
 # UniFusion
 
+**Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment**
+
+[[Project page](https://yongzhelyu.github.io/UniFusion/)]
+
 Official research implementation for dynamic scene reconstruction with temporally
 conditioned 2D Gaussian surfels. UniFusion combines multi-view chart priors,
 low-rank temporal deformation fields, depth-order supervision, and 2D Gaussian
 refinement to recover time-varying appearance and geometry.
 
-> **Release checklist:** add the final paper title, author list, project URL,
-> citation, checkpoint URLs, and reference metric table before making the
+> **Release checklist:** add the final author list, citation, checkpoint URLs,
+> and reference metric table before making the
 > repository public. The code and experiment recipes are structured for internal
 > reproduction now.
 
