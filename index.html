@@ -51,10 +51,16 @@
   <section class="section video-section" id="video">
     <div class="container is-max-desktop">
       <h2 class="title is-3 centered-section-title">Video</h2>
-      <video id="teaser" class="teaser-video" autoplay muted loop playsinline controls preload="metadata" poster="./static/images/teaser.jpg?v=demo-20260825">
-        <source src="./static/videos/UniFusion.mp4?v=demo-20260825" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <div class="publication-video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/xeH7cstVq8I?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=xeH7cstVq8I&amp;rel=0"
+          title="UniFusion project video"
+          loading="eager"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
       <p class="has-text-centered teaser-copy"><span class="unifusion">UniFusion</span> jointly aligns monocular depths across sparse views and time, providing reliable initialization and supervision for 4D Gaussian splatting.</p>
     </div>
   </section>
