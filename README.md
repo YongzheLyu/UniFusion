@@ -1,8 +1,11 @@
-# UniFusion
+# UniFusion: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment
 
-**Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment**
+**ECCV 2026**<br>
+[Yongzhe Lyu](https://yongzhelyu.github.io/)<sup>*</sup> &emsp; [Shaofei Wang](https://taconite.github.io/)<sup>*</sup> &emsp; [Yixin Chen](https://yixchen.github.io/)<sup>†</sup> &emsp; [Siyuan Huang](https://siyuanhuang.com/)<sup>†</sup><br>
+State Key Laboratory of General Artificial Intelligence, BIGAI, Beijing, China<br>
+<sup>*</sup> Equal contribution &emsp; <sup>†</sup> Corresponding authors
 
-[[Project page](https://yongzhelyu.github.io/UniFusion/)]
+| [Webpage](https://yongzhelyu.github.io/UniFusion/) | [arXiv](https://arxiv.org/abs/2609.05888) |
 
 Official research implementation for dynamic scene reconstruction with temporally
 conditioned 2D Gaussian surfels. UniFusion combines multi-view chart priors,
