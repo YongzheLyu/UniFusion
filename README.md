@@ -15,8 +15,9 @@
 </p>
 
 <p align="center">
-  <img src="assets/readme/deformable2dgs.gif" alt="UniFusion dynamic reconstruction with Deformable2DGS" width="760"><br>
-  <strong>UniFusion produces temporally stable RGB and depth reconstructions from sparse views.</strong>
+  <img src="assets/readme/results.gif" alt="UniFusion sparse-view dynamic reconstruction results" width="800"><br>
+  <strong>Sparse-view dynamic reconstruction with UniFusion.</strong><br>
+  RGB appearance (left) and temporally aligned depth (right), using Deformable2DGS (top) and MonoFusion (bottom) backends.
 </p>
 
 Official research implementation for dynamic scene reconstruction with temporally
@@ -40,13 +41,6 @@ refinement to recover time-varying appearance and geometry.
 
 Datasets, pretrained weights, generated priors, checkpoints, renders, and logs
 are deliberately excluded from Git.
-
-## Results
-
-<p align="center">
-  <img src="assets/readme/monofusion.gif" alt="UniFusion dynamic reconstruction with MonoFusion" width="760"><br>
-  <strong>UniFusion also improves the temporal consistency and geometry of the MonoFusion backend.</strong>
-</p>
 
 ## Installation
 
