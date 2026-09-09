@@ -11,7 +11,12 @@
 </p>
 
 <p align="center">
-  | <a href="https://yongzhelyu.github.io/UniFusion/">Webpage</a> | <a href="https://arxiv.org/abs/2609.05888">arXiv</a> |
+  | <a href="https://yongzhelyu.github.io/UniFusion/">Webpage</a> | <a href="https://arxiv.org/abs/2609.05888">arXiv</a> | <a href="https://github.com/YongzheLyu/UniFusion">Code</a> |
+</p>
+
+<p align="center">
+  <img src="assets/readme/deformable2dgs.gif" alt="UniFusion dynamic reconstruction with Deformable2DGS" width="760"><br>
+  <strong>UniFusion produces temporally stable RGB and depth reconstructions from sparse views.</strong>
 </p>
 
 Official research implementation for dynamic scene reconstruction with temporally
@@ -35,6 +40,13 @@ refinement to recover time-varying appearance and geometry.
 
 Datasets, pretrained weights, generated priors, checkpoints, renders, and logs
 are deliberately excluded from Git.
+
+## Results
+
+<p align="center">
+  <img src="assets/readme/monofusion.gif" alt="UniFusion dynamic reconstruction with MonoFusion" width="760"><br>
+  <strong>UniFusion also improves the temporal consistency and geometry of the MonoFusion backend.</strong>
+</p>
 
 ## Installation
 
