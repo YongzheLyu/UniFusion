@@ -1,11 +1,18 @@
-# UniFusion: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment
+<h1 align="center">UniFusion: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment</h1>
 
-**ECCV 2026**<br>
-[Yongzhe Lyu](https://yongzhelyu.github.io/)<sup>*</sup> &emsp; [Shaofei Wang](https://taconite.github.io/)<sup>*</sup> &emsp; [Yixin Chen](https://yixchen.github.io/)<sup>†</sup> &emsp; [Siyuan Huang](https://siyuanhuang.com/)<sup>†</sup><br>
-State Key Laboratory of General Artificial Intelligence, BIGAI, Beijing, China<br>
-<sup>*</sup> Equal contribution &emsp; <sup>†</sup> Corresponding authors
+<p align="center">
+  <strong>ECCV 2026</strong><br>
+  <a href="https://yongzhelyu.github.io/">Yongzhe Lyu</a><sup>&#42;</sup> &emsp;
+  <a href="https://taconite.github.io/">Shaofei Wang</a><sup>&#42;</sup> &emsp;
+  <a href="https://yixchen.github.io/">Yixin Chen</a><sup>†</sup> &emsp;
+  <a href="https://siyuanhuang.com/">Siyuan Huang</a><sup>†</sup><br>
+  State Key Laboratory of General Artificial Intelligence, BIGAI, Beijing, China<br>
+  <sup>&#42;</sup> Equal contribution &emsp; <sup>†</sup> Corresponding authors
+</p>
 
-| [Webpage](https://yongzhelyu.github.io/UniFusion/) | [arXiv](https://arxiv.org/abs/2609.05888) |
+<p align="center">
+  | <a href="https://yongzhelyu.github.io/UniFusion/">Webpage</a> | <a href="https://arxiv.org/abs/2609.05888">arXiv</a> |
+</p>
 
 Official research implementation for dynamic scene reconstruction with temporally
 conditioned 2D Gaussian surfels. UniFusion combines multi-view chart priors,
