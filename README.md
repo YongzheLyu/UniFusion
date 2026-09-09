@@ -15,9 +15,9 @@
 </p>
 
 <p align="center">
-  <img src="assets/readme/results.gif" alt="UniFusion sparse-view dynamic reconstruction results" width="800"><br>
-  <strong>Sparse-view dynamic reconstruction with UniFusion.</strong><br>
-  RGB appearance (left) and temporally aligned depth (right), using Deformable2DGS (top) and MonoFusion (bottom) backends.
+  <img src="assets/readme/qualitative-comparison.webp" alt="UniFusion qualitative comparison on Fencing and Lego" width="900"><br>
+  <strong>Qualitative comparison on challenging EgoHumans scenes.</strong><br>
+  UniFusion recovers coherent geometry where MonoFusion fails and substantially improves Deformable2DGS reconstruction quality.
 </p>
 
 Official research implementation for dynamic scene reconstruction with temporally
