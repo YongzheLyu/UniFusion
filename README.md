@@ -194,13 +194,7 @@ The upstream directory names are retained because their CUDA build scripts and
 imports depend on those paths. Project-specific orchestration lives in `scripts/`
 and core temporal changes live in `matcha/` and `2d-gaussian-splatting/`.
 
-## Reproducibility policy
 
-- Paper configurations under `configs/paper/` are never modified by a run.
-- Every run writes commands and environment metadata beside its results.
-- `--resume` skips only stages with their expected completion artifact.
-- `--dry-run` validates paths and prints commands without GPU execution.
-- Evaluation does not train or overwrite checkpoints.
 
 ## License and acknowledgement
 
