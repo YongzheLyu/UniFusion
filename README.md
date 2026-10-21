@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/images/favicon.svg" alt="UniFusion logo" width="112">
+</p>
+
 <h1 align="center">UniFusion: Sparse-View 4D Reconstruction via Unified Spatio-temporal Depth Alignment</h1>
 
 <p align="center">
